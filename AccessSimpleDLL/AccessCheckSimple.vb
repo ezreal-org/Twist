@@ -354,11 +354,11 @@ Public Class AccessCheckSimple
 
         appAccess.Visible = False
 
+        ' appAccess.Quit()
         Dim generation As Integer = New Integer
-        generation = 0
         generation = System.GC.GetGeneration(appAccess)
-        appAccess.Quit()
         System.GC.Collect(generation, GCCollectionMode.Forced)
+
         Return Nothing
     End Function
 End Class
