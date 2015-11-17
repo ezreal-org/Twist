@@ -9,7 +9,7 @@ Class PPTJudge
     Private ConstPointListForPrint() As String 'VB不知道怎么动态往数组里添加元素，自己写个字符串解析好了
     Private pptAnsDoc As PowerPoint.Presentation '构造方法里初始化
     Private slideLevelscorePointList() As Integer '纪录每个考点的分值，在initPointList里面设置一次
-    Public log As String   '记录对每个文档评分的细节 每个文档调用getScore方法算法 在里面重置
+    Private log As String   '记录对每个文档评分的细节 每个文档调用getScore方法算法 在里面重置
     Private logPoint As String
 
     Sub New(ByVal ans As PowerPoint.Presentation, ByVal path As String) '构造函数，使用标准答案
@@ -127,9 +127,6 @@ Class PPTJudge
         score = 0
         log = "" '重置对文档的评分细节日志
         logPoint = ""
-        '  log = "创建时间:" & stuDoc.BuiltInDocumentProperties(11).value & " 保存时间:" & stuDoc.BuiltInDocumentProperties(12).value & " 作者:" & stuDoc.BuiltInDocumentProperties(3).value & "<br>"
-        '  log = log & "<table  class='gridtable' border=1><tr><th>序号</th><th>考察内容</th><th>参考答案</th><th>学生答案</th><th>对错</th><th>得分</th></tr>"            '重置对文档的评分细节日志
-
         Dim stuSlidePosNow = 1 '学生文档结构跟答案不一定一致，用selectStuSlideId处理一些缺页多页的异常
         Dim slidePointCxSum = 0
         Dim pointNow As String = ""  '当前处理的考点
@@ -141,18 +138,9 @@ Class PPTJudge
         Dim indexOfSlideNow As Integer = 0
         Dim pointScore As Integer = 0
         Dim isFirtsEnterSlide As Boolean
-        Dim sCheck As String = "", sAns As String = "", sStu As String = "", sScore As String = ""
-
-
         For i = 1 To offSetOfSlidePoint.Length / 2 'slide数目
             isFirtsEnterSlide = True
             Dim slidePointcx As Integer = Integer.Parse(offSetOfSlidePoint((i - 1) * 2))
-
-            sCheck = ""
-            sAns = ""
-            sStu = ""
-            sScore = ""
-
             For j = 1 To slidePointcx '每个slide考点数
                 pointNow = pointList(slidePointCxSum + j - 1)
                 pointStr = pointNow.Substring(0, pointNow.IndexOf("@"))
@@ -187,14 +175,9 @@ Class PPTJudge
                         ' MsgBox(pointStr & "考察 - " & ConstPointListForPrint(t) & " 其中 ans = " & handleMap(pointStr, stuDoc.Slides(stuSlidePosNow), t + 1))
                         Dim ansStr As String = handleMap(pointStr, pptAnsDoc.Slides(i), t + 1)
                         Dim stuStr As String = handleMap(pointStr, stuDoc.Slides(stuSlidePosNow), t + 1)
-
                         log = log & "Slide" & i & " " & pointStr & " 考察 - " & ConstPointListForPrint(t) & vbCrLf
                         log = log & " 其中 ans = " & ansStr & vbCrLf
                         log = log & " 其中 stu = " & stuStr & vbCrLf
-                        sCheck = sCheck & "#" & ConstPointListForPrint(t)
-                        sAns = sAns & "#" & ansStr
-                        sStu = sStu & "#" & stuStr
-
                         logPoint = logPoint & "Slide" & i & " " & pointStr & " 考察 - " & ConstPointListForPrint(t) & "  "
                         cxOfPoint = cxOfPoint + 1
                         If stuStr = ansStr Then
@@ -214,10 +197,6 @@ Class PPTJudge
                             pointScore = Integer.Parse(pointNow.Substring(pointNow.LastIndexOf(",") + 1).Replace("*", ""))
                             logPoint = logPoint & "该考点考察的属性数目为： " & cxOfPoint & "，其中正确属性数目为： " & cxOfPointRight & vbCrLf
                             logPoint = logPoint & "该考点分值为: " & pointScore & " 计 " & pointScore * (cxOfPointRight / cxOfPoint) & "分" & vbCrLf
-
-                            'log = log & "<tr><td >Slide " & i & "</td><td>" & sCheck.Substring(1).Replace("#", "<hr>") & "</td><td>" & sAns.Substring(1).Replace("#", "<hr>") & "</td><td>" & sStu.Substring(1).Replace("#", "<hr>") & "</td><td>" & sScore.Substring(1).Replace("#", "<hr>") & "</td>"
-                            '  log = log & "<td>" & pointScore * (cxOfPointRight / cxOfPoint) & "</td></tr>"
-
                             score = score + pointScore * (cxOfPointRight / cxOfPoint)
                             cxOfPoint = 0
                             cxOfPointRight = 0
@@ -233,10 +212,6 @@ Class PPTJudge
                             logPoint = logPoint & "Slide级别考点考察的属性数目为： " & cxOfPoint & "，其中正确属性数目为： " & cxOfPointRight & vbCrLf
                             logPoint = logPoint & "该考点分值为: " & slideLevelscorePointList(indexOfSlideNow) & " 计 " & slideLevelscorePointList(indexOfSlideNow) * (cxOfPointRight / cxOfPoint) & "分" & vbCrLf
                             score = score + slideLevelscorePointList(indexOfSlideNow) * (cxOfPointRight / cxOfPoint)
-
-                            '   log = log & "<tr><td >Slide " & i & "</td><td>" & sCheck.Substring(1).Replace("#", "<hr>") & "</td><td>" & sAns.Substring(1).Replace("#", "<hr>") & "</td><td>" & sStu.Substring(1).Replace("#", "<hr>") & "</td><td>" & sScore.Substring(1).Replace("#", "<hr>") & "</td>"
-                            '   log = log & "<td>" & slideLevelscorePointList(indexOfSlideNow) * (cxOfPointRight / cxOfPoint) & "</td></tr>"
-
                             indexOfSlideNow = indexOfSlideNow + 1
                             cxOfPoint = 0
                             cxOfPointRight = 0
@@ -262,7 +237,6 @@ Class PPTJudge
         Next
         logPoint = logPoint & vbCrLf & "下面是该文档评分细节" & vbCrLf & vbCrLf
         log = logPoint & log
-        '  log = log & "</table><br>"
         writeLog(log, stuDoc.Name, score)
         Return score
     End Function

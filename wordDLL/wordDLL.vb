@@ -79,6 +79,10 @@ Class Para
         Return p.Range.Font.Spacing.ToString
     End Function
 
+    '公式段，简单的检查公式内容
+    Function getFormula() As String
+        Return p.Range.Text
+    End Function
 
     Function getShadingStyle() As String  '阴影效果，测试结果不好
         Dim styleD As String
@@ -215,7 +219,10 @@ Class WordCheckPerDoc
         Dim actualCountOfPara As Integer = 0
         Dim strTemp As String = ""
         For Each line As String In File.ReadLines(pointPath)
-            scoreStr = scoreStr & line.Substring(0, line.IndexOf("@")) & ","
+            If line.Substring(0, line.IndexOf("@")) <> "0" Then '空段时老师可能添加了分数为0的段，直接忽略，分数也不加进去
+                scoreStr = scoreStr & line.Substring(0, line.IndexOf("@")) & ","
+            End If
+
             line = line.Substring(line.IndexOf("@") + 1)
             If line.Length < pointPerPara * 2 Then
                 commonPoint = line
@@ -225,11 +232,10 @@ Class WordCheckPerDoc
             End If
         Next
         Dim scoreList() As String = scoreStr.Split(",")
-        ReDim paraScoreList(actualCountOfPara + 1)
-        For k = 0 To actualCountOfPara
+        ReDim paraScoreList(scoreList.Length - 1)
+        For k = 0 To scoreList.Length - 2
             paraScoreList(k) = Integer.Parse(scoreList(k))
         Next
-
         Dim strRec As String '处理某段时先保存下来那段以前的样子
         Dim i As Integer = 0
         Dim chars() As Char
@@ -334,7 +340,10 @@ Class WordCheckPerDoc
         Dim paraCount = answerDoc.Paragraphs.Count
         'getParaScore
         Dim pIndexOfStu As Integer = 1
-        Do While (ansParaIndex <= answerDoc.Paragraphs.Count) AndAlso (pIndexOfStu <= sDoc.Paragraphs.Count)
+        ' Do While (ansParaIndex <= answerDoc.Paragraphs.Count) AndAlso (pIndexOfStu <= sDoc.Paragraphs.Count)
+        '不再检查所有段，而是设置了考点的段，一方面减少计算，另一方面，没有设置考点的段，没有pointList，会越界
+        '首字下沉和分栏会自动补类似 0,0,0 的靠点，不受影响
+        Do While (ansParaIndex <= paraPoint.Length / 36) AndAlso (pIndexOfStu <= sDoc.Paragraphs.Count)
             'MsgBox("ans第" & ansParaIndex & "stu第" & pIndexOfStu)
             log = log & "ans第" & ansParaIndex & "stu第" & pIndexOfStu & vbCrLf
             If pIndexOfStu <= sDoc.Paragraphs.Count Then
@@ -387,7 +396,8 @@ Class WordCheckPerDoc
         Dim cxOfPoint As Integer = 0
         Dim cxOfRightPoint As Integer = 0
         Dim pAns As Para = New Para(answerDoc.Paragraphs(ansParaIndex))
-        Dim countOfPointPerPara As Integer = (paraPoint.Length / 2) / answerDoc.Paragraphs.Count
+        ' Dim countOfPointPerPara As Integer = (paraPoint.Length / 2) / answerDoc.Paragraphs.Count
+        Dim countOfPointPerPara As Integer = 18 '假如有些段没有设置考点，那么上面计算的就不准确
         '这里可以加过滤处理，处理误操作问题
         Dim pStu As Para = New Para(stuDoc.Paragraphs(pIndexOfStu))
         For j = 0 To countOfPointPerPara - 1 ' 0到每段考点数
@@ -409,7 +419,7 @@ Class WordCheckPerDoc
         '那么应用在上面的分值设定也是要灵活处理的'
         '分栏只增加了空段，影响不大,首字下沉时，设置一个静态变量存储以前的首字下沉值
 
-        If cxOfPoint > 0 Then
+        If cxOfPoint > 0 Or flagOfXiaChen Then
             If ansValidParaIndex > paraScoreList.Length - 3 Then
                 Return 0
             End If
@@ -460,7 +470,6 @@ Class WordCheckPerDoc
     End Function
 
 End Class
-
 
 Public Class wordCheck
     Public Shared wdDocCx As Integer = 0
