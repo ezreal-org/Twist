@@ -1,0 +1,36 @@
+/*************************************************************************************************************************
+*功能描述：office判卷DLL说明文档
+*修改记录：								
+*版    本：v0.1
+*Author  ：Jayce & Huiyao @scut-b3-337
+*************************************************************************************************************************/
+1.涉及的DLL
+	a.AccessSimpleDLL.dll 完成access判卷
+	b.excelDLL.dll	      完成excel阅卷
+	c.pptDLL.dll	      完成ppt阅卷
+	d.wordDLL.dll 	      完成word阅卷
+
+2.接口描述
+	a.AccessSimpleDLL.dll	  
+		AccessCheckSimple类的getAccessScore(string ansPath,string stuPath);
+		当stuPath为文件时，完成文件判卷；为目录时，完成目录下所以学生文档判卷。日志存D:/accessLog.txt
+		AccessCheckSimple::accessDocCx记录已完成阅卷文档数
+	b.excelDLL.dll	  
+		ExcelCheck类的getExcelScore(string ansPath,string stuPath);
+		当stuPath为文件时，完成文件判卷；为目录时，完成目录下所以学生文档判卷。日志存D:/excelLog.txt
+		ExcelCheck::excelDocCx记录已完成阅卷文档数
+	c.pptDLL.dll	  
+		PptCheck类的getPPTScore(string ansPath,string stuPath);
+		当stuPath为文件时，完成文件判卷；为目录时，完成目录下所以学生文档判卷。日志存D:/pptLog.txt
+		PptCheck::pptDocCx记录已完成阅卷文档数
+	d.wordDLL.dll	  
+		wordCheck类的getWordScore(string ansPath,string stuPath);
+		当stuPath为文件时，完成文件判卷；为目录时，完成目录下所以学生文档判卷。日志存D:/wordLog.txt
+		wordCheck::wordDocCx记录已完成阅卷文档数
+3..NET托管项目的引用
+	a.功能。用于扩展CLI/C++、C#、VB.net、asp.net应用程序功能
+	b.添加引用。右键项目->添加->引用->浏览->对应DLL。其中指定编译DLL的目标.Net Framework要和项目模板框架一致
+	c.使用DLL接口。using/imports dll-> 定义dll中的类对象->调用getScore方法。
+	如CLI/C++中使用wordDLL接口判卷，using wordDLL->wordCheck^ wc = gcnew wordCheck()->wc->getWordScore(ansPath,stuPath).
+
+

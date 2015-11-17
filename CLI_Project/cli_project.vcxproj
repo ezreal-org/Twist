@@ -138,13 +138,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="AccessSimpleDLL">
-      <HintPath>..\..\Cpp\vbDLL\AccessSimpleDLL\bin\Debug\AccessSimpleDLL.dll</HintPath>
+      <HintPath>..\AccessSimpleDLL\bin\Debug\AccessSimpleDLL.dll</HintPath>
     </Reference>
     <Reference Include="excelDLL">
-      <HintPath>..\..\Cpp\vbDLL\excelDLL\bin\Debug\excelDLL.dll</HintPath>
+      <HintPath>..\excelDLL\bin\Debug\excelDLL.dll</HintPath>
     </Reference>
     <Reference Include="pptDLL">
-      <HintPath>..\..\Cpp\vbDLL\pptDLL\bin\Debug\pptDLL.dll</HintPath>
+      <HintPath>..\pptDLL\bin\Debug\pptDLL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -152,7 +152,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="wordDLL">
-      <HintPath>..\..\Cpp\vbDLL\wordDLL\bin\Debug\wordDLL.dll</HintPath>
+      <HintPath>..\wordDLL\bin\Debug\wordDLL.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -207,7 +207,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\Cpp\CalDLL\Debug\CalDLL.lib" />
+    <Library Include="..\..\..\Cpp\CalDLL\Debug\CalDLL.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

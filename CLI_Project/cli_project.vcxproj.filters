@@ -69,6 +69,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\Cpp\CalDLL\Debug\CalDLL.lib" />
+    <Library Include="..\..\..\Cpp\CalDLL\Debug\CalDLL.lib" />
   </ItemGroup>
 </Project>
