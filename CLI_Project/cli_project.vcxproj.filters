@@ -39,6 +39,9 @@
     <ClInclude Include="judge.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="calForm.cpp">
@@ -69,6 +72,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\..\Cpp\CalDLL\Debug\CalDLL.lib" />
+    <ResourceCompile Include="Resource.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Jayce\Downloads\icon64.ico">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="C:\Users\Jayce\Downloads\icon128.ico">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\Debug\CalDLL.lib" />
   </ItemGroup>
 </Project>

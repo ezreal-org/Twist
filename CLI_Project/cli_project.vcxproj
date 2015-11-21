@@ -181,6 +181,7 @@
     <ClInclude Include="netServer.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="calForm.resx">
@@ -207,7 +208,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\..\Cpp\CalDLL\Debug\CalDLL.lib" />
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Jayce\Downloads\icon128.ico" />
+    <None Include="C:\Users\Jayce\Downloads\icon64.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\Debug\CalDLL.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
