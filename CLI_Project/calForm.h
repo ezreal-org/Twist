@@ -83,12 +83,14 @@ namespace Calculator{
 	private: System::Windows::Forms::Button^  btn_negtive;
 
 	private: Boolean isWaiting;
+	private: System::Windows::Forms::ToolTip^  toolTip1;
+	private: System::ComponentModel::IContainer^  components;
 
 	private:
 		/// <summary>
 		/// 必需的设计器变量。
 		/// </summary>
-		System::ComponentModel::Container^ components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -102,6 +104,7 @@ namespace Calculator{
 		}
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(calForm::typeid));
 			this->btn_one = (gcnew System::Windows::Forms::Button());
 			this->btn_two = (gcnew System::Windows::Forms::Button());
@@ -125,6 +128,7 @@ namespace Calculator{
 			this->btn_leftBracket = (gcnew System::Windows::Forms::Button());
 			this->label_jayce = (gcnew System::Windows::Forms::Label());
 			this->btn_negtive = (gcnew System::Windows::Forms::Button());
+			this->toolTip1 = (gcnew System::Windows::Forms::ToolTip(this->components));
 			this->SuspendLayout();
 			// 
 			// btn_one
@@ -474,6 +478,7 @@ namespace Calculator{
 			this->Name = L"calForm";
 			this->SizeGripStyle = System::Windows::Forms::SizeGripStyle::Show;
 			this->Text = L"计算器";
+			this->Load += gcnew System::EventHandler(this, &calForm::calForm_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -701,6 +706,9 @@ namespace Calculator{
 		//this->Hide();
 	//	this->tb_calculateWindow->Text = "";
 	}
+private: System::Void calForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	toolTip1->SetToolTip(tb_calculateWindow, "历史窗口");
+}
 };
 }
 
