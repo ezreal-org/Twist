@@ -218,6 +218,7 @@ namespace Calculator {
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 	direct -= 1;
 }
+
 };
 
 }

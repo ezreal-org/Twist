@@ -11,7 +11,10 @@ namespace Calculator {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
+	using namespace System::Net::Sockets;
+	using namespace System::Net;
+	using namespace System::Text;
+	using namespace Runtime::InteropServices;
 	/// <summary>
 	/// netClient 摘要
 	/// </summary>
@@ -32,20 +35,21 @@ namespace Calculator {
 		/// </summary>
 		~netClient()
 		{
+			if (sockClient != nullptr)
+				sockClient->Close();
 			if (recvThread != nullptr && recvThread->IsAlive)
 				recvThread->Abort();
 			if (components)
 			{
 				delete components;
 			}
-			closesocket(sockClient);
 		}
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::TextBox^  textBox1;
 	private: System::Windows::Forms::Button^  button2;
 	private: Thread^ recvThread;
 	private: System::Windows::Forms::TextBox^  textBox2;
-	private: SOCKET sockClient;
+	private:	Socket^ sockClient;
 	protected:
 
 	private:
@@ -128,65 +132,80 @@ namespace Calculator {
 			char recvBuf[50];
 			char disp[50];
 			string dispStr = "";
+			String^ str = gcnew String("");
 			while(1)
 			{
-				recv(pthis->sockClient, recvBuf, 50, 0);
-				printf("%s client-----server msg : %s\n", pthis->Name,recvBuf+1);
-				if (strcmp(recvBuf, "1KEEPALIVE") == 0)
-				{	
-					send(pthis->sockClient, "1I'm alive...", 50, 0);
+				try {
+					str = "";
+					while (!str->Contains("#"))
+					{
+						cli::array<Byte>^ bytes = gcnew cli::array<Byte>(50);
+						Array::Clear(bytes, 0, bytes->Length);
+						pthis->sockClient->Receive(bytes);
+						str += Encoding::UTF8->GetString(bytes);
+					}
 				}
-				if (strcmp(recvBuf, "0NAME") == 0)
-				{ 
-					sprintf(sendBuf, "0%s", pthis->Name);
-					send(pthis->sockClient, sendBuf, 50, 0);
-				}
-				if (recvBuf[0] != '0' && recvBuf[0] != '1')
+				catch (SocketException^)
 				{
-					sprintf(disp, "server: %s...\r\n", recvBuf+1);
-					dispStr = disp;
-					pthis->textBox1->Text += gcnew String(dispStr.c_str());
+					return;
+				}
+				str = str->Replace("#","");
+				//被这个sprintf坑大发了
+				//sprintf(recvBuf, "%s", str);
+				
+				char *tp = (char*)(Marshal::StringToHGlobalAnsi(str)).ToPointer();//String->char*
+				strcpy(recvBuf, tp);
+				if (strcmp(recvBuf, "1K") == 0)
+				{	
+					str = "0";
+					str += pthis->Name;
+					cli::array<Byte>^ replyArray = gcnew cli::array<Byte>(50);
+					Array::Clear(replyArray, 0, replyArray->Length);
+					replyArray = Encoding::UTF8->GetBytes(str);
+					pthis->sockClient->Send(replyArray);
+				}
+				else if (strcmp(recvBuf, "0N") == 0)
+				{ 
+					str = "0";
+					str += pthis->Name;
+					cli::array<Byte>^ replyArray = gcnew cli::array<Byte>(50);
+					Array::Clear(replyArray, 0, replyArray->Length);
+					replyArray = Encoding::UTF8->GetBytes(str);
+					pthis->sockClient->Send(replyArray);
+				}
+				else
+				{
+					//测试显示中文字符占三个字节
+					pthis->textBox1->Text += "server: ";
+					pthis->textBox1->Text += str->Substring(1);
+					pthis->textBox1->Text += "\r\n";
 					pthis->textBox1->SelectionStart = pthis->textBox1->Text->Length;
 					pthis->textBox1->ScrollToCaret();
+					
 				}
+				
 			}		
-			//closesocket(pthis->sockClient);
 		}
 
 #pragma endregion
 	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
 		this->button2->Enabled = false;
-		//connect
-		WORD wVersionRequested;
-		WSADATA wsaData;
-		int err;
-		wVersionRequested = MAKEWORD(1, 1);//第一个参数为低位字节；第二个参数为高位字节
-		err = WSAStartup(wVersionRequested, &wsaData);//对winsock DLL（动态链接库文件）进行初始化，协商Winsock的版本支持，并分配必要的资源。
-		if (err != 0)
-		{
-			return;
-		}
-		if (LOBYTE(wsaData.wVersion) != 1 || HIBYTE(wsaData.wVersion) != 1)//LOBYTE（）取得16进制数最低位；HIBYTE（）取得16进制数最高（最左边）那个字节的内容		
-		{
-			WSACleanup();
-			return;
-		}
-		sockClient = socket(AF_INET, SOCK_STREAM, 0);
-		SOCKADDR_IN addrSvr;//需要包含服务端IP信息	
-		addrSvr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");// inet_addr将IP地址从点数格式转换成网络字节格式整型。
-		addrSvr.sin_family = AF_INET;
-		addrSvr.sin_port = htons(4001);
-		printf("client-----ready to conn\n");
-		connect(sockClient, (SOCKADDR*)&addrSvr,sizeof(SOCKADDR));//客户机向服务器发出
+		Int32 port = 1234;
+		IPAddress^ ipAdderess = IPAddress::Parse("127.0.0.1");
+		IPEndPoint^ remoteEP = gcnew IPEndPoint(ipAdderess, port);
 
+		sockClient = gcnew Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+		sockClient->Connect(remoteEP);
 		//create receive Thread
 		recvThread = gcnew Thread(gcnew ParameterizedThreadStart(netClient::ReceiveThreadRun));//带参静态成员线程函数
 		recvThread->Start(this);
 	}
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 		char sendBuf[50];
-		sprintf(sendBuf, "2%s", this->textBox2->Text);
-		send(sockClient, sendBuf, 50, 0);
+		String^ sendStr = gcnew String("");
+		sendStr = "2";
+		sendStr += this->textBox2->Text->ToString();
+		this->sockClient->Send(Encoding::UTF8->GetBytes(sendStr));
 		this->textBox1->Text += ("me: " + this->textBox2->Text + "\r\n");
 		this->textBox2->Text = "";
 		this->textBox1->SelectionStart = this->textBox1->Text->Length;

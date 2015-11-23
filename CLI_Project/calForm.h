@@ -679,7 +679,7 @@ namespace Calculator{
 		kt1->Text = "kt1";
 		kt1->Show();
 		*/
-		/*
+		
 		netClient^ c1 = gcnew netClient();
 		netClient^ c2 = gcnew netClient();
 		netClient^ c3 = gcnew netClient();
@@ -697,7 +697,7 @@ namespace Calculator{
 		c3->Show();
 		c2->Show();
 		s1->Show();
-		*/
+		
 		judge ^j1 = gcnew judge();
 		j1->Name = "j1";
 		j1->Text = "judge";

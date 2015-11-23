@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Twist">
+</Property><Property Name="解决方案文件" Value="D:\Workspace\git\Twist\Twist.sln">
+</Property><Property Name="Date" Value="2015年11月23日">
+</Property><Property Name="Time" Value="0:10">
+</Property></Properties><Event ErrorLevel="3" Project="cli_project" Source="cli_project\cli_project.vcxproj" Description="无需转换">
+</Event><Event ErrorLevel="0" Project="AccessSimpleDLL" Source="AccessSimpleDLL\AccessSimpleDLL.vbproj" Description="项目文件不需要转换。">
+</Event><Event ErrorLevel="3" Project="AccessSimpleDLL" Source="AccessSimpleDLL\AccessSimpleDLL.vbproj" Description="无需转换">
+</Event><Event ErrorLevel="0" Project="excelDLL" Source="excelDLL\excelDLL.vbproj" Description="项目文件不需要转换。">
+</Event><Event ErrorLevel="3" Project="excelDLL" Source="excelDLL\excelDLL.vbproj" Description="无需转换">
+</Event><Event ErrorLevel="0" Project="pptDLL" Source="pptDLL\pptDLL.vbproj" Description="项目文件不需要转换。">
+</Event><Event ErrorLevel="3" Project="pptDLL" Source="pptDLL\pptDLL.vbproj" Description="无需转换">
+</Event><Event ErrorLevel="0" Project="wordDLL" Source="wordDLL\wordDLL.vbproj" Description="项目文件不需要转换。">
+</Event><Event ErrorLevel="3" Project="wordDLL" Source="wordDLL\wordDLL.vbproj" Description="无需转换">
+</Event><Event ErrorLevel="0" Project="" Source="Twist.sln" Description="成功转换解决方案">
+</Event><Event ErrorLevel="3" Project="" Source="Twist.sln" Description="Converted">
+</Event></UpgradeLog>

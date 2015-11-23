@@ -9,7 +9,9 @@ namespace Calculator {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
+	using namespace System::Net::Sockets;
+	using namespace System::Net;
+	using namespace System::Text;
 	/// <summary>
 	/// netServer 摘要
 	/// </summary>
@@ -21,16 +23,13 @@ namespace Calculator {
 		{
 		public:
 			String^ name;
-			SOCKET  sock;
-			Thread ^recvThread; //服务器为每个客户端维持一个接收线程
+			Socket^ sockClient;
 			int flag;			//为了后期扩展，flag设置为int型
 			ClientEntry^ next;
 		};
-
 		netServer(void)
 		{
 			InitializeComponent();
-			initServer();
 			pClientEntryHead = nullptr;
 			pClientEntryTail = nullptr;
 			pthis = this;
@@ -50,30 +49,37 @@ namespace Calculator {
 			{
 				delete components;
 			}
+			if(server!=nullptr)
+				server->Stop();
 			if(acceptThread!=nullptr && acceptThread->IsAlive)
 				acceptThread->Abort();
 			printf("clear serverThread.... totel %d \n", clientCx);
 			//all client thread clean
 
+			if (recvThread->IsAlive)
+				recvThread->Abort();
+
 			for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)
 			{
-				if (p->recvThread->IsAlive)
-					p->recvThread->Abort();
+				p->sockClient->Close();
 			}
 			if (keepAlive != nullptr && keepAlive->IsAlive)
 				keepAlive->Abort();
 			if (timeThread != nullptr && timeThread->IsAlive)
 				timeThread->Abort();
-
-			closesocket(sockSrv);
+			
 		}
 	private: System::Windows::Forms::TextBox^  textBox1;
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Button^  button2;
 	private: Thread^ acceptThread;
 	private: Thread^ keepAlive;
+	private: Thread^ recvThread;
 	private: Thread^ timeThread;
-	private: static SOCKET sockSrv;
+	//private: static SOCKET sockSrv;
+			 //纯CLI/C++版本
+	private: static TcpListener^ server;
+
 	private: static int clientCx;
 	private: int timeCx;
 	private: static ClientEntry^ pClientEntryHead;
@@ -85,10 +91,6 @@ namespace Calculator {
 	private: System::Windows::Forms::Button^  btn_c2;
 	private: System::Windows::Forms::Button^  btn_all;
 	private: System::Windows::Forms::Label^  label1;
-
-
-
-
 
 	protected:
 
@@ -228,33 +230,6 @@ namespace Calculator {
 			this->PerformLayout();
 
 		}
-		void initServer()
-		{
-			//初始化winsocket
-			WORD wVersionRequested;
-			WSADATA wsaData;
-			int err;
-			wVersionRequested = MAKEWORD(1, 1);//第一个参数为低位字节；第二个参数为高位字
-			err = WSAStartup(wVersionRequested, &wsaData);//对winsock DLL（动态链接库文件）进行初始化，协商Winsock的版本支持，并分配必要的资源。
-			if (err != 0)
-			{
-				return;
-			}
-			if (LOBYTE(wsaData.wVersion) != 1 || HIBYTE(wsaData.wVersion) != 1)//LOBYTE（）取得16进制数最低位；HIBYTE（）取得16进制数最高（最左边）那个字节的内容		
-			{
-				WSACleanup();
-				return;
-			}
-			sockSrv = socket(AF_INET, SOCK_STREAM, 0);//创建socket。AF_INET表示在Internet中通信；SOCK_STREAM表示socket是流套接字，对应tcp；0指定网络协议为TCP/IP
-			SOCKADDR_IN addrSrv;
-			addrSrv.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");	//htonl用来将主机字节顺序转换为网络字节顺序(to network long													//INADDR_ANY就是指定地址为0.0.0.0的地址,												//表示不确定地址,或“任意地址”。”
-			addrSrv.sin_family = AF_INET;
-			addrSrv.sin_port = htons(4001);//htons用来将主机字节顺序转换为网络字节顺序(to network short)
-			bind(sockSrv, (SOCKADDR*)&addrSrv, sizeof(SOCKADDR));//将本地地址绑定到所创建的socket上，以使在网络上标识该socket
-			printf("server----addr %s \n", inet_ntoa(addrSrv.sin_addr));
-			listen(sockSrv, 5);//socket监听，准备接受连接请求
-		}
-
 		static void clientEntryClean()
 		{
 			char disp[50];
@@ -269,7 +244,6 @@ namespace Calculator {
 					{
 						if (p == pClientEntryHead)
 						{
-							printf("Server：------------ %s may DIE....\n", p->name);
 							sprintf(disp,"%s may die...........\r\n",p->name);
 							dispStr = disp;
 							pthis->textBox1->Text += gcnew String(dispStr.c_str());
@@ -284,7 +258,6 @@ namespace Calculator {
 						}
 						else
 						{
-							printf("Server：------------ %s may DIE....\n", p->name);
 							sprintf(disp, "%s may die...........\r\n", p->name);
 							dispStr = disp;
 							pthis->textBox1->Text += gcnew String(dispStr.c_str());
@@ -304,30 +277,36 @@ namespace Calculator {
 					}
 				}
 				pClientEntryTail = pre; //最后更新尾节点
-				printf("Server : After clean...there are %d remain....\n", clientCx);
 			}
 		}
 	
 		static void IsAlive(Object^ arg)
 		{
 			char recvBuf[50];
+			String^ strSend = gcnew String("");
+			cli::array<Byte>^ msg = gcnew cli::array<Byte>(50);
 			while (1)
 			{
 				//为每个客户创建一个接受线程
 				if (clientCx > 0)
 				{
 					EnterCriticalSection(&g_CriticalSection);
-				//	for (int i = 1; i < clientCx + 1; i++)
-					//	stateOfAllClient[i] = 0; //先假定都离线
 					for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)
 					{
 						p->flag = 0;
 					}
+					strSend = "1K#";
+					Array::Clear(msg, 0, msg->Length);
+					msg = Encoding::UTF8->GetBytes(strSend);
 					for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)
 					{
-						send(p->sock, "1KEEPALIVE", 50, 0);
+						try{
+							p->sockClient->Send(msg);
+						}
+						catch(SocketException^){
+							continue;
+						}
 					}
-					printf("send keepAlive package to all %d client.....\n", clientCx);
 					LeaveCriticalSection(&g_CriticalSection);
 
 				}
@@ -354,119 +333,134 @@ namespace Calculator {
 			Sleep(1000);
 			}
 		}
-		//为每个客户创建一个接受线程
+		//为每个客户创建一个接受线程;有了Available检查，就不需要为每个Client建立一个线程了
 		static void RecvThread(Object^ arg) //多个接收线程公用这个函数，唯一不变的是每个线程在不同的sock上等待信息
 		{
 			char recvBuf[50];
 			string recvStr = "";
-			ClientEntry ^me= (ClientEntry ^)arg;
-			SOCKET clientSock = me->sock;
-			char name[20];
-			sprintf(name, "%s", me->name);
-			printf("server create RecvThread for %s ..", name);
+			String^ str;
+			cli::array<Byte>^ bytes = gcnew cli::array<Byte>(50);
 			while(1)
 			{
-				int i;
-				if (recv(clientSock, recvBuf, 50, 0) < 0)  //sock已无数据可读
+				for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)
 				{
-					return;
+					char name[20];
+					sprintf(name, "%s", p->name);
+					try {
+						if (p->sockClient->Available)
+						{
+							Array::Clear(bytes, 0, bytes->Length);
+							if (p->sockClient->Receive(bytes) < 0)
+							{
+								return;
+							}
+							p->flag = 1;
+							str = Encoding::UTF8->GetString(bytes);
+							sprintf(recvBuf, "%s", str);
+							printf("recv   %s from client %s : \n", recvBuf + 1, name);  //第一位作为标识位，区分不同类信息
+							if (recvBuf[0] != '0' && recvBuf[0] != '1') //仅显示非控制消息, 0 NAME包，1表示心跳包
+							{
+								char disp[50];
+								sprintf(disp, "%s: %s ...\r\n", name, recvBuf + 1);
+								recvStr = disp;
+								pthis->textBox1->Text += gcnew String(recvStr.c_str());
+								pthis->textBox1->SelectionStart = pthis->textBox1->Text->Length;
+								pthis->textBox1->ScrollToCaret();
+							}
+						}
+					}
+					catch (SocketException^)
+					{
+						continue;
+					}
 				}
-			for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)
-			{
-				if (p->sock == clientSock)
+				
+			Sleep(100);//2000毫秒
+			}
+		}
+		
+		static void AcceptThread(Object^ arg)
+		{
+			Int32 port = 1234;
+			IPAddress^ localAdd = IPAddress::Parse("127.0.0.1");
+			server = gcnew TcpListener(localAdd, 1234);
+			server->Start();
+			string str = "";
+			String^ strMsg = gcnew String("");
+			Socket^ sockClient= gcnew Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			cli::array<Byte>^ msg = gcnew cli::array<Byte>(50);
+			printf("server-------acceptThread run.... \n");
+			while(server!=nullptr)
+			{ 
+				try
 				{
-					p->flag = 1;
-					break;
+					sockClient = server->AcceptSocket();
+					strMsg = "0N#";
+					msg = Encoding::UTF8->GetBytes(strMsg);
+					sockClient->Send(msg);
+					//协商得到client name
+					cli::array<Byte>^ bytes = gcnew cli::array<Byte>(50);
+					Array::Clear(bytes, 0, bytes->Length);
+					if (sockClient->Receive(bytes) > 0)
+					{
+						EnterCriticalSection(&g_CriticalSection);  //成员属性线程同步测试
+						 //add client entry
+						clientCx++;
+						ClientEntry ^ce = gcnew ClientEntry();
+							ce->name = Encoding::UTF8->GetString(bytes);
+						ce->name = ce->name->Substring(1); //第0位为类型标识
+						ce->flag = 1;
+						ce->sockClient = sockClient;
+						ce->next = nullptr;
+						if (pClientEntryHead == nullptr)
+						{
+							pClientEntryHead = ce;
+							pClientEntryTail = ce;
+						}
+						else
+						{
+							pClientEntryTail->next = ce;
+							pClientEntryTail = ce;
+						}
+						char temp[50];
+						sprintf(temp, "%s", ce->name);
+						if (strcmp(temp, "c1") == 0)
+						{
+							pthis->btn_c1->Visible = true;
+							pthis->btn_c1->Text = ce->name;
+							pthis->btn_c1->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
+							pthis->btn_all->Text = "all";
+							pthis->btn_all->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
+						}
+						else if (strcmp(temp, "c2") == 0)
+						{
+							pthis->btn_c2->Text = ce->name;
+							pthis->btn_c2->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
+							pthis->btn_all->Text = "all";
+							pthis->btn_all->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
+						}
+						else if (strcmp(temp, "c3") == 0)
+						{
+							pthis->btn_c3->Text = ce->name;
+							pthis->btn_c3->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
+							pthis->btn_all->Text = "all";
+							pthis->btn_all->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
+						}
+						sprintf(temp, "User(%s),connected....\r\n", ce->name);
+						str = temp;
+						pthis->textBox1->Text += gcnew String(str.c_str());
+						pthis->textBox1->SelectionStart = pthis->textBox1->Text->Length;
+						pthis->textBox1->ScrollToCaret();
+						LeaveCriticalSection(&g_CriticalSection);
+					}	
 				}
-			}
-			printf("recv   %s from client %s : \n", recvBuf+1,name);  //第一位作为标识位，区分不同类信息
-			if (recvBuf[0] != '0' && recvBuf[0] != '1') //仅显示非控制消息, 0 NAME包，1表示心跳包
-			{
-				char disp[50];
-				sprintf(disp, "%s: %s ...\r\n", name, recvBuf + 1);
-				recvStr = disp;
-				pthis->textBox1->Text += gcnew String(recvStr.c_str());
-				pthis->textBox1->SelectionStart = pthis->textBox1->Text->Length;
-				pthis->textBox1->ScrollToCaret();
-			}
+				catch (SocketException^)
+				{
+					continue;
+				}
 			Sleep(200);//2000毫秒
 			}
 		}
-		//定义线程  
-		//静态成员函数方法
-		static void AcceptThread(Object^ arg)
-		{	
-			string str = "";
-				SOCKADDR_IN addrClient;
-				int len = sizeof(SOCKADDR);
-				printf("server-------acceptThread run.... \n");
-				while (1)
-				{
-					SOCKET sockConn = accept(sockSrv, (SOCKADDR*)&addrClient, &len);//为一个连接请求提供服务。addrClient包含了发出连接请求的客户机IP地址信息；返回的新socket描述服务器与该客户机的连接
-					//服务器为每个客户端创建一个线程，接收来自他们的消息
-					send(sockConn, "0NAME", 50, 0);
-					printf("server-------User(%d) from %s Connected!",clientCx+1,inet_ntoa(addrClient.sin_addr));
-					 //协商得到client name
-					char recvBuf[50];
-					recv(sockConn, recvBuf, 50, 0);
-					string recv = recvBuf+1; //第一位作为标识位，区分不同类信息
-
-					EnterCriticalSection(&g_CriticalSection);  //成员属性线程同步测试
-					//add client entry
-					clientCx++;
-					Thread^ recvThread = gcnew Thread(gcnew ParameterizedThreadStart(netServer::RecvThread));//带参静态成员线程函数
-					ClientEntry ^ce = gcnew ClientEntry();
-					ce->name = gcnew String(recv.c_str());
-					ce->flag = 1;
-					ce->recvThread = recvThread;
-					ce->sock = sockConn;
-					ce->next = nullptr;
-					if (pClientEntryHead == nullptr)
-					{
-						pClientEntryHead = ce;
-						pClientEntryTail = ce;
-					}
-					else
-					{
-						pClientEntryTail->next = ce;
-						pClientEntryTail = ce;
-					}
-					recvThread->Start(ce);
-					char temp[50];
-					sprintf(temp, "%s", ce->name);
-					if (strcmp(temp, "c1")==0)
-					{
-						pthis->btn_c1->Visible = true;
-						pthis->btn_c1->Text = ce->name;
-						pthis->btn_c1->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
-						pthis->btn_all->Text = "all";
-						pthis->btn_all->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
-					}
-					else if (strcmp(temp, "c2")==0)
-					{
-						pthis->btn_c2->Text = ce->name;
-						pthis->btn_c2->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
-						pthis->btn_all->Text = "all";
-						pthis->btn_all->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
-					}
-					else if (strcmp(temp, "c3")==0)
-					{
-						pthis->btn_c3->Text = ce->name;
-						pthis->btn_c3->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
-						pthis->btn_all->Text = "all";
-						pthis->btn_all->FlatStyle = System::Windows::Forms::FlatStyle::Standard;
-					}
-					sprintf(temp, "User(%s),connected....\r\n", ce->name);
-					str = temp;
-					pthis->textBox1->Text += gcnew String(str.c_str());
-					pthis->textBox1->SelectionStart = pthis->textBox1->Text->Length;
-					pthis->textBox1->ScrollToCaret();
-					LeaveCriticalSection(&g_CriticalSection);
-
-					Sleep(200);//2000毫秒
-				}
-		}
-		
 
 #pragma endregion
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -475,10 +469,15 @@ namespace Calculator {
 		acceptThread = gcnew Thread(gcnew ParameterizedThreadStart(netServer::AcceptThread));//带参静态成员线程函数
 		acceptThread->Start(0);
 		keepAlive = gcnew Thread(gcnew ParameterizedThreadStart(netServer::IsAlive));//带参静态成员线程函数
-		keepAlive->Start(this);	
+		keepAlive->Start(this);
+		recvThread = gcnew Thread(gcnew ParameterizedThreadStart(netServer::RecvThread));//带参静态成员线程函数
+		recvThread->Start(0);
 	}
-	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+
 			
+
+	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+		
 		char peerName[20];
 		char eachName[20];
 		string dispStr = "";
@@ -491,21 +490,39 @@ namespace Calculator {
 			this->textBox1->Text += gcnew String(dispStr.c_str());
 			this->textBox1->SelectionStart = this->textBox1->Text->Length;
 			this->textBox1->ScrollToCaret();
+			String^ sendStr = gcnew String("");
+
+			sendStr = "2";
+			sendStr += this->textBox2->Text->ToString();
+			sendStr += "#";
+			cli::array<Byte> ^msg = gcnew cli::array<Byte>(50);
+			msg = Encoding::UTF8->GetBytes(sendStr);
 			for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)
 			{
-				send(p->sock, eachName, 50, 0);
+				try {
+					//MessageBox::Show(Encoding::UTF8->GetString(msg) + "--Server 发前");
+					p->sockClient->Send(msg);
+				}
+				catch (SocketException^){
+					continue;
+				}
+				
 			}
 		}
 		else
 		{
 			sprintf(peerName, "%s", this->textBox2->Text->Substring(1, 2));
+			String^ sendStr = gcnew String("");
+			sendStr = this->textBox2->Text->Substring(3);
+			sendStr += "#";
 			for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)
 			{
 				sprintf(eachName, "%s", p->name);
 				if (strcmp(eachName, peerName) == 0)
 				{
-					sprintf(eachName, "2%s", this->textBox2->Text->Substring(4));
-					send(p->sock, eachName, 50, 0);
+					sprintf(eachName, "2%s", this->textBox2->Text->Substring(3));
+						p->sockClient->Send(Encoding::UTF8->GetBytes(sendStr));
+
 					sprintf(eachName, "Server to %s:  %s...\r\n", p->name, this->textBox2->Text->Substring(4));
 					dispStr = eachName;
 					this->textBox1->Text += gcnew String(dispStr.c_str());
@@ -517,8 +534,9 @@ namespace Calculator {
 			}
 		}
 		
-		this->textBox2->Text = ""; 
+		this->textBox2->Text = "";
 	}
+
 private: System::Void btn_c1_Click(System::Object^  sender, System::EventArgs^  e) {
 	this->btn_c1->Enabled = false;
 	this->btn_c2->Enabled = true;
