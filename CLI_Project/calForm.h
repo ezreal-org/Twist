@@ -14,11 +14,12 @@
 #include "netServer.h"
 #include "followForm.h"
 #include "judge.h"
-using namespace Calculator;
-
+#include "loginForm.h"
+#include "memberInfo.h"
+#include "storage.h"
 extern __declspec(dllimport) string tkCalculator(string);
 
-namespace Calculator{
+namespace ManagementSystemV5{
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -28,6 +29,7 @@ namespace Calculator{
 	using namespace System::Drawing;
 	using namespace std;
 	using namespace System::Threading;
+	using namespace System::Data::Odbc;
 	using  wordDLL::wordCheck;
 				  /// <summary>
 				  /// Form1 摘要
@@ -506,7 +508,7 @@ namespace Calculator{
 		}
 
 #pragma endregion
-
+		 
 
 	private: System::Void btn_calculate_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (!isWaiting)
@@ -703,8 +705,38 @@ namespace Calculator{
 		j1->Text = "judge";
 		j1->Show();
 	
+		loginForm^ loginform1 = gcnew loginForm();
+		loginform1->Name = "loginForm1";
+		loginform1->Show();
 		//this->Hide();
 	//	this->tb_calculateWindow->Text = "";
+
+		SchoolMember m1;
+		m1.setId("111");
+		m1.setName("tiankai");
+		m1.setCity("guangzhou");
+		m1.setSex(1);
+		m1.setAge(22);
+
+		Storage storage1;
+		storage1.writeSchoolMemberInfoDB(&m1);
+		SchoolMember* pm1 = storage1.readSchoolMemberInfoDB("x1");
+		//MessageBox::Show("read done!");
+		//cout << "id:" << pm1->getId() << "name:" <<  pm1->getName() << "city: " << pm1->getCity() << "age:" << pm1->getAge() << "sex:" << pm1->getSex() << endl;
+		//delete pm1;
+		/* query
+		OdbcConnection^ Conn = gcnew OdbcConnection("DSN=ManagementSystemV5;UI=root;PWD=tk;");
+		String^ sql = "select* from schoolmember;";
+		OdbcDataAdapter ^adapter = gcnew OdbcDataAdapter(sql,Conn);
+		DataSet^ set = gcnew DataSet();
+		adapter->Fill(set, "schoolmember");
+		for each(DataRow^ row in set->Tables["schoolmember"]->Rows)
+		{
+			MessageBox::Show("id:" + row["id"] + "name" + row["name"] + "city" + row["homeCity"] + "sex" + row["sex"]);
+
+		}
+		*/
+		
 	}
 private: System::Void calForm_Load(System::Object^  sender, System::EventArgs^  e) {
 	toolTip1->SetToolTip(tb_calculateWindow, "历史窗口");

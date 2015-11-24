@@ -8,7 +8,7 @@ using namespace std;
 static int g_cx = 10000; //测试线程之间的同步
 extern CRITICAL_SECTION g_CriticalSection;
 
-namespace Calculator {
+namespace ManagementSystemV5 {
 
 	using namespace System;
 	using namespace System::ComponentModel;

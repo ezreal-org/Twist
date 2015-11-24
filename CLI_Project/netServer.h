@@ -1,7 +1,7 @@
 #pragma once
 #include "jayce.h"
 #include "followForm.h"
-namespace Calculator {
+namespace ManagementSystemV5 {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -34,6 +34,11 @@ namespace Calculator {
 			pClientEntryTail = nullptr;
 			pthis = this;
 			timeCx = 0;
+			server = nullptr;
+			acceptThread = nullptr;
+			recvThread = nullptr;
+			timeThread = nullptr;
+			keepAlive = nullptr;
 			//
 			//TODO:  在此处添加构造函数代码
 			//
@@ -56,7 +61,7 @@ namespace Calculator {
 			printf("clear serverThread.... totel %d \n", clientCx);
 			//all client thread clean
 
-			if (recvThread->IsAlive)
+			if (recvThread!=nullptr && recvThread->IsAlive)
 				recvThread->Abort();
 
 			for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)

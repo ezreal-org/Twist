@@ -33,7 +33,7 @@ void getFiles(string path, vector<string>& files)
 	}
 }
 
-namespace Calculator {
+namespace ManagementSystemV5 {
 
 	using namespace System;
 	using namespace System::ComponentModel;

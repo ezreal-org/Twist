@@ -1,5 +1,5 @@
 #include "calForm.h"
-using namespace Calculator; //自己的命名空间
+using namespace ManagementSystemV5; //自己的命名空间
 
 CRITICAL_SECTION g_CriticalSection; // 定义
 

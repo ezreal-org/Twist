@@ -3,7 +3,7 @@
 
 
 
-namespace Calculator {
+namespace ManagementSystemV5 {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -150,11 +150,7 @@ namespace Calculator {
 					return;
 				}
 				str = str->Replace("#","");
-				//被这个sprintf坑大发了
-				//sprintf(recvBuf, "%s", str);
-				
-				char *tp = (char*)(Marshal::StringToHGlobalAnsi(str)).ToPointer();//String->char*
-				strcpy(recvBuf, tp);
+				sprintf(recvBuf, "%s", str);
 				if (strcmp(recvBuf, "1K") == 0)
 				{	
 					str = "0";

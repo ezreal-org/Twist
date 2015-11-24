@@ -42,6 +42,15 @@
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="loginForm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="memberInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="storage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="calForm.cpp">
@@ -70,6 +79,9 @@
     <EmbeddedResource Include="judge.resx">
       <Filter>资源文件</Filter>
     </EmbeddedResource>
+    <EmbeddedResource Include="loginForm.resx">
+      <Filter>资源文件</Filter>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
@@ -83,8 +95,9 @@
     <None Include="C:\Users\Jayce\Downloads\icon128.ico">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\Debug\CalDLL.lib" />
+    <Library Include="..\..\..\Cpp\CalDLL\x64\Debug\CalDLL.lib" />
   </ItemGroup>
 </Project>

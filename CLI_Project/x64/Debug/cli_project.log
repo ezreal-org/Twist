@@ -1,0 +1,71 @@
+﻿生成启动时间为 2015/11/24 21:22:42。
+     1>项目“D:\Workspace\git\Twist\cli_project\cli_project.vcxproj”在节点 2 上(Rebuild 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /TP /FUD:\Workspace\git\Twist\AccessSimpleDLL\bin\Debug\AccessSimpleDLL.dll /FUD:\Workspace\git\Twist\excelDLL\bin\Debug\excelDLL.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll" /FUD:\Workspace\git\Twist\pptDLL\bin\Debug\pptDLL.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /FUD:\Workspace\git\Twist\wordDLL\bin\Debug\wordDLL.dll /errorReport:prompt calForm.cpp /clr:nostdlib 
+         calForm.cpp
+     1>d:\workspace\git\twist\cli_project\childForm.h(192): warning C4800: “int”: 将值强制为布尔值“true”或“false”(性能警告)
+     1>d:\workspace\git\twist\cli_project\childForm.h(219): warning C4804: “-=”: 在操作中使用类型“bool”不安全
+     1>d:\workspace\git\twist\cli_project\childForm.h(219): warning C4800: “int”: 将值强制为布尔值“true”或“false”(性能警告)
+     1>d:\workspace\git\twist\cli_project\netClient.h(153): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netClient.h(131): warning C4101: “sendBuf”: 未引用的局部变量
+     1>d:\workspace\git\twist\cli_project\netClient.h(133): warning C4101: “disp”: 未引用的局部变量
+     1>d:\workspace\git\twist\cli_project\netClient.h(200): warning C4101: “sendBuf”: 未引用的局部变量
+     1>d:\workspace\git\twist\cli_project\netServer.h(252): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(266): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(290): warning C4101: “recvBuf”: 未引用的局部变量
+     1>d:\workspace\git\twist\cli_project\netServer.h(353): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(364): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(369): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(431): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(454): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(475): warning C4965: 整数 0 的隐式装箱；请使用 nullptr 或显式转换
+     1>d:\workspace\git\twist\cli_project\netServer.h(479): warning C4965: 整数 0 的隐式装箱；请使用 nullptr 或显式转换
+     1>d:\workspace\git\twist\cli_project\netServer.h(491): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(519): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(525): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(528): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(531): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\netServer.h(577): warning C4965: 整数 0 的隐式装箱；请使用 nullptr 或显式转换
+     1>d:\workspace\git\twist\cli_project\judge.h(15): warning C4244: “=”: 从“intptr_t”转换到“long”，可能丢失数据
+     1>d:\workspace\git\twist\cli_project\judge.h(226): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+     1>d:\workspace\git\twist\cli_project\loginForm.h(259): warning C4101: “ex”: 未引用的局部变量
+     1>d:\workspace\git\twist\cli_project\memberInfo.h(9): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : 参见“strcpy”的声明
+     1>d:\workspace\git\twist\cli_project\memberInfo.h(21): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : 参见“strcpy”的声明
+     1>d:\workspace\git\twist\cli_project\memberInfo.h(25): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : 参见“strcpy”的声明
+     1>d:\workspace\git\twist\cli_project\storage.h(22): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+     1>d:\workspace\git\twist\cli_project\storage.h(32): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : 参见“sprintf”的声明
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /Zi /clr /nologo /W3 /WX- /Od /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /TP /errorReport:prompt "C:\Users\Jayce\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cpp"
+         .NETFramework,Version=v4.0.AssemblyAttributes.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"x64\Debug\Resource.res" Resource.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Workspace\git\Twist\x64\Debug\CLI_Project.exe" /INCREMENTAL /NOLOGO /ASSEMBLYRESOURCE:x64\Debug\ManagementSystemV5.calForm.resources /ASSEMBLYRESOURCE:x64\Debug\ManagementSystemV5.childForm.resources /ASSEMBLYRESOURCE:x64\Debug\ManagementSystemV5.followForm.resources /ASSEMBLYRESOURCE:x64\Debug\ManagementSystemV5.judge.resources /ASSEMBLYRESOURCE:x64\Debug\ManagementSystemV5.keyTest.resources /ASSEMBLYRESOURCE:x64\Debug\ManagementSystemV5.loginForm.resources /ASSEMBLYRESOURCE:x64\Debug\ManagementSystemV5.netClient.resources /ASSEMBLYRESOURCE:x64\Debug\ManagementSystemV5.netServer.resources /MANIFEST /ManifestFile:"x64\Debug\CLI_Project.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Workspace\git\Twist\x64\Debug\CLI_Project.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X64 x64\Debug\Resource.res
+         x64\Debug\calForm.obj
+         "x64\Debug\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+         ..\..\..\Cpp\CalDLL\x64\Debug\CalDLL.lib
+         cli_project.vcxproj -> D:\Workspace\git\Twist\x64\Debug\CLI_Project.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Workspace\git\Twist\x64\Debug\CLI_Project.exe;#1" /manifest x64\Debug\CLI_Project.exe.intermediate.manifest
+     1>已完成生成项目“D:\Workspace\git\Twist\cli_project\cli_project.vcxproj”(Rebuild 个目标)的操作。
+
+已成功生成。
+
+已用时间 00:00:02.18

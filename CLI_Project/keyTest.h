@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Calculator {
+namespace ManagementSystemV5 {
 
 	using namespace System;
 	using namespace System::ComponentModel;

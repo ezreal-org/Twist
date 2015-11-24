@@ -22,7 +22,7 @@
     <ProjectGuid>{49D0D0AD-1515-4F31-A905-1F58133E70A6}</ProjectGuid>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>Calculator</RootNamespace>
+    <RootNamespace>ManagementSystemV5</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>CLI_Project</ProjectName>
   </PropertyGroup>
@@ -87,7 +87,7 @@
     <CodeAnalysisRuleAssemblies />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules />
     <CodeAnalysisRuleAssemblies />
@@ -103,6 +103,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -128,6 +129,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -187,6 +189,10 @@
     <ClInclude Include="keyTest.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="loginForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="memberInfo.h" />
     <ClInclude Include="netClient.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -194,6 +200,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="storage.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="calForm.resx">
@@ -212,6 +219,10 @@
     <EmbeddedResource Include="keyTest.resx">
       <DependentUpon>keyTest.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="loginForm.resx">
+      <DependentUpon>loginForm.h</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="netClient.resx">
       <DependentUpon>netClient.h</DependentUpon>
     </EmbeddedResource>
@@ -225,9 +236,10 @@
   <ItemGroup>
     <None Include="C:\Users\Jayce\Downloads\icon128.ico" />
     <None Include="C:\Users\Jayce\Downloads\icon64.ico" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\Debug\CalDLL.lib" />
+    <Library Include="..\..\..\Cpp\CalDLL\x64\Debug\CalDLL.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
