@@ -705,24 +705,63 @@ namespace ManagementSystemV5{
 		j1->Text = "judge";
 		j1->Show();
 	
-		loginForm^ loginform1 = gcnew loginForm();
+		LoginForm^ loginform1 = gcnew LoginForm();
 		loginform1->Name = "loginForm1";
 		loginform1->Show();
 		//this->Hide();
 	//	this->tb_calculateWindow->Text = "";
 
-		SchoolMember m1;
-		m1.setId("111");
-		m1.setName("tiankai");
-		m1.setCity("guangzhou");
-		m1.setSex(1);
-		m1.setAge(22);
 
-		Storage storage1;
-		storage1.writeSchoolMemberInfoDB(&m1);
-		SchoolMember* pm1 = storage1.readSchoolMemberInfoDB("x1");
-		//MessageBox::Show("read done!");
-		//cout << "id:" << pm1->getId() << "name:" <<  pm1->getName() << "city: " << pm1->getCity() << "age:" << pm1->getAge() << "sex:" << pm1->getSex() << endl;
+		//Storage storage1;
+		/*
+		* write member
+		*/
+
+		/*
+		SchoolMember* pm1 = new SchoolMember();
+		pm1->setId("x111");
+		pm1->setName("x2Name");
+		pm1->setBirthPlace("北京","北京");
+		pm1->setSex(1);
+		pm1->setAge(22);
+		pm1->setBirthday(1997, 10, 6);
+		pm1->setMajor(2);
+		pm1->setIdNumber("4309021997XXXXXX15");
+		pm1->setExtraInfo("2018 二等奖学金");
+		pm1->setIsTalent(false);
+		pm1->setPicpath("D:\\stu");
+		storage1.writeSchoolMemberInfo(pm1);
+		delete pm1;
+		*/
+		
+		/*
+		* readAllName
+		*/
+		
+		/*
+		cli::array<String^> ^ans = storage1.readAllFileName();
+		for (int i = 0; i < ans->Length; i++)
+			MessageBox::Show(ans[i]);
+		*/
+		/*
+		* queryById
+		*/
+		/*
+		SchoolMember* pm1 ;
+		char path[20];
+		char *province;
+		char *city;
+		for (int i = 0; i < ans->Length; i++)
+		{
+			sprintf(path, "%s", ans[i]);
+			pm1 = storage1.readSchoolMemberInfo(path);
+			pm1->getBirthPlace(province, city);
+			cout << "idNum:" << pm1->getIdNumber() << " name:" << pm1->getName() << " city: " << province << city << " extra:" << pm1->getExtraInfo() << endl;
+
+		}
+		*/
+		//delete pm1;
+		//storage1.writeSchoolMemberInfoDB(pm1);
 		//delete pm1;
 		/* query
 		OdbcConnection^ Conn = gcnew OdbcConnection("DSN=ManagementSystemV5;UI=root;PWD=tk;");

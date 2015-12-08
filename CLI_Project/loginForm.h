@@ -1,4 +1,5 @@
 #pragma once
+#include "adIndexForm.h" //引入管理员以及学院端的首页窗体文件
 
 namespace ManagementSystemV5 {
 
@@ -10,16 +11,16 @@ namespace ManagementSystemV5 {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// loginForm 摘要
+	/// LoginForm 摘要
 	/// </summary>
-	public ref class loginForm : public System::Windows::Forms::Form
+	public ref class LoginForm : public System::Windows::Forms::Form
 	{
 	public:
-		loginForm(void)
+		LoginForm(void)
 		{
 			InitializeComponent();
 			//
-			//TODO: 在此处添加构造函数代码
+			//TODO:  在此处添加构造函数代码
 			//
 		}
 
@@ -27,63 +28,30 @@ namespace ManagementSystemV5 {
 		/// <summary>
 		/// 清理所有正在使用的资源。
 		/// </summary>
-		~loginForm()
+		~LoginForm()
 		{
 			if (components)
 			{
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	protected:
 	private: System::Windows::Forms::Panel^  loginPanel;
-	private: System::Windows::Forms::Label^  welLabel;
-	protected:
-
-
-	protected:
-
-
-
-	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::GroupBox^  loginGroupBox;
-
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::GroupBox^  groupBox1;
 	private: System::Windows::Forms::RadioButton^  stuRadio;
 
-	private: System::Windows::Forms::RadioButton^  teaRadio;
+	private: System::Windows::Forms::RadioButton^  adRadio;
 
-	private: System::Windows::Forms::RadioButton^  admRadio;
+	private: System::Windows::Forms::TextBox^  psTbox;
 
-	private: System::Windows::Forms::TextBox^  psBox;
+	private: System::Windows::Forms::TextBox^  accTbox;
 
-	private: System::Windows::Forms::TextBox^  AccBox;
-	private: System::Windows::Forms::Label^  psLabel;
-	private: System::Windows::Forms::Label^  accLabel;
-
-
-
-
-
-	private: System::Windows::Forms::PictureBox^  schLogo;
-	private: System::Windows::Forms::LinkLabel^  tecSupportLink;
-
-
-
-
-	protected:
-
-
-	protected:
-
-
-
-
-
-
-
-
-
-
-
-
+	private: System::Windows::Forms::Label^  label3;
+	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::LinkLabel^  supLink;
 
 
 	private:
@@ -94,188 +62,212 @@ namespace ManagementSystemV5 {
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// 设计器支持所需的方法 - 不要
+		/// 设计器支持所需的方法 - 不要修改
 		/// 使用代码编辑器修改此方法的内容。
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(loginForm::typeid));
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(LoginForm::typeid));
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->loginPanel = (gcnew System::Windows::Forms::Panel());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->loginGroupBox = (gcnew System::Windows::Forms::GroupBox());
+			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
 			this->stuRadio = (gcnew System::Windows::Forms::RadioButton());
-			this->teaRadio = (gcnew System::Windows::Forms::RadioButton());
-			this->admRadio = (gcnew System::Windows::Forms::RadioButton());
-			this->psBox = (gcnew System::Windows::Forms::TextBox());
-			this->AccBox = (gcnew System::Windows::Forms::TextBox());
-			this->psLabel = (gcnew System::Windows::Forms::Label());
-			this->accLabel = (gcnew System::Windows::Forms::Label());
-			this->welLabel = (gcnew System::Windows::Forms::Label());
-			this->schLogo = (gcnew System::Windows::Forms::PictureBox());
-			this->tecSupportLink = (gcnew System::Windows::Forms::LinkLabel());
+			this->adRadio = (gcnew System::Windows::Forms::RadioButton());
+			this->psTbox = (gcnew System::Windows::Forms::TextBox());
+			this->accTbox = (gcnew System::Windows::Forms::TextBox());
+			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->supLink = (gcnew System::Windows::Forms::LinkLabel());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->loginPanel->SuspendLayout();
-			this->loginGroupBox->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->schLogo))->BeginInit();
+			this->groupBox1->SuspendLayout();
 			this->SuspendLayout();
+			// 
+			// pictureBox1
+			// 
+			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
+			this->pictureBox1->Location = System::Drawing::Point(12, 3);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(293, 293);
+			this->pictureBox1->TabIndex = 0;
+			this->pictureBox1->TabStop = false;
 			// 
 			// loginPanel
 			// 
-			this->loginPanel->BackColor = System::Drawing::SystemColors::Window;
-			resources->ApplyResources(this->loginPanel, L"loginPanel");
-			this->loginPanel->Controls->Add(this->button1);
-			this->loginPanel->Controls->Add(this->loginGroupBox);
-			this->loginPanel->Controls->Add(this->welLabel);
+			this->loginPanel->Controls->Add(this->groupBox1);
+			this->loginPanel->Controls->Add(this->label1);
+			this->loginPanel->Location = System::Drawing::Point(336, 12);
 			this->loginPanel->Name = L"loginPanel";
+			this->loginPanel->Size = System::Drawing::Size(322, 219);
+			this->loginPanel->TabIndex = 1;
 			// 
-			// button1
+			// groupBox1
 			// 
-			this->button1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
-				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			resources->ApplyResources(this->button1, L"button1");
-			this->button1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
-				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			this->button1->Name = L"button1";
-			this->button1->UseVisualStyleBackColor = false;
-			this->button1->Click += gcnew System::EventHandler(this, &loginForm::button1_Click);
-			// 
-			// loginGroupBox
-			// 
-			this->loginGroupBox->Controls->Add(this->stuRadio);
-			this->loginGroupBox->Controls->Add(this->teaRadio);
-			this->loginGroupBox->Controls->Add(this->admRadio);
-			this->loginGroupBox->Controls->Add(this->psBox);
-			this->loginGroupBox->Controls->Add(this->AccBox);
-			this->loginGroupBox->Controls->Add(this->psLabel);
-			this->loginGroupBox->Controls->Add(this->accLabel);
-			resources->ApplyResources(this->loginGroupBox, L"loginGroupBox");
-			this->loginGroupBox->ForeColor = System::Drawing::Color::Gray;
-			this->loginGroupBox->Name = L"loginGroupBox";
-			this->loginGroupBox->TabStop = false;
+			this->groupBox1->Controls->Add(this->stuRadio);
+			this->groupBox1->Controls->Add(this->adRadio);
+			this->groupBox1->Controls->Add(this->psTbox);
+			this->groupBox1->Controls->Add(this->accTbox);
+			this->groupBox1->Controls->Add(this->label3);
+			this->groupBox1->Controls->Add(this->label2);
+			this->groupBox1->Font = (gcnew System::Drawing::Font(L"楷体", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(134)));
+			this->groupBox1->Location = System::Drawing::Point(29, 46);
+			this->groupBox1->Name = L"groupBox1";
+			this->groupBox1->Size = System::Drawing::Size(273, 169);
+			this->groupBox1->TabIndex = 1;
+			this->groupBox1->TabStop = false;
+			this->groupBox1->Text = L"请登录";
 			// 
 			// stuRadio
 			// 
-			resources->ApplyResources(this->stuRadio, L"stuRadio");
+			this->stuRadio->AutoSize = true;
+			this->stuRadio->Location = System::Drawing::Point(155, 127);
 			this->stuRadio->Name = L"stuRadio";
+			this->stuRadio->Size = System::Drawing::Size(67, 23);
+			this->stuRadio->TabIndex = 5;
 			this->stuRadio->TabStop = true;
+			this->stuRadio->Text = L"学生";
 			this->stuRadio->UseVisualStyleBackColor = true;
 			// 
-			// teaRadio
+			// adRadio
 			// 
-			resources->ApplyResources(this->teaRadio, L"teaRadio");
-			this->teaRadio->Name = L"teaRadio";
-			this->teaRadio->TabStop = true;
-			this->teaRadio->UseVisualStyleBackColor = true;
-			this->teaRadio->CheckedChanged += gcnew System::EventHandler(this, &loginForm::radioButton2_CheckedChanged);
+			this->adRadio->AutoSize = true;
+			this->adRadio->Location = System::Drawing::Point(41, 127);
+			this->adRadio->Name = L"adRadio";
+			this->adRadio->Size = System::Drawing::Size(87, 23);
+			this->adRadio->TabIndex = 4;
+			this->adRadio->TabStop = true;
+			this->adRadio->Text = L"管理员";
+			this->adRadio->UseVisualStyleBackColor = true;
 			// 
-			// admRadio
+			// psTbox
 			// 
-			resources->ApplyResources(this->admRadio, L"admRadio");
-			this->admRadio->Name = L"admRadio";
-			this->admRadio->TabStop = true;
-			this->admRadio->UseVisualStyleBackColor = true;
+			this->psTbox->Location = System::Drawing::Point(72, 86);
+			this->psTbox->Name = L"psTbox";
+			this->psTbox->Size = System::Drawing::Size(182, 29);
+			this->psTbox->TabIndex = 3;
 			// 
-			// psBox
+			// accTbox
 			// 
-			resources->ApplyResources(this->psBox, L"psBox");
-			this->psBox->Name = L"psBox";
+			this->accTbox->Location = System::Drawing::Point(72, 40);
+			this->accTbox->Name = L"accTbox";
+			this->accTbox->Size = System::Drawing::Size(182, 29);
+			this->accTbox->TabIndex = 2;
 			// 
-			// AccBox
+			// label3
 			// 
-			resources->ApplyResources(this->AccBox, L"AccBox");
-			this->AccBox->Name = L"AccBox";
+			this->label3->AutoSize = true;
+			this->label3->Location = System::Drawing::Point(6, 89);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(59, 19);
+			this->label3->TabIndex = 1;
+			this->label3->Text = L"密 码";
 			// 
-			// psLabel
+			// label2
 			// 
-			resources->ApplyResources(this->psLabel, L"psLabel");
-			this->psLabel->Name = L"psLabel";
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(7, 43);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(59, 19);
+			this->label2->TabIndex = 0;
+			this->label2->Text = L"账 号";
 			// 
-			// accLabel
+			// label1
 			// 
-			resources->ApplyResources(this->accLabel, L"accLabel");
-			this->accLabel->Name = L"accLabel";
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"楷体", 18, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(134)));
+			this->label1->ForeColor = System::Drawing::Color::Gray;
+			this->label1->Location = System::Drawing::Point(25, 0);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(185, 24);
+			this->label1->TabIndex = 0;
+			this->label1->Text = L"欢迎使用本系统";
 			// 
-			// welLabel
+			// button1
 			// 
-			resources->ApplyResources(this->welLabel, L"welLabel");
-			this->welLabel->ForeColor = System::Drawing::SystemColors::ActiveCaption;
-			this->welLabel->Name = L"welLabel";
-			this->welLabel->Click += gcnew System::EventHandler(this, &loginForm::label1_Click);
+			this->button1->Font = (gcnew System::Drawing::Font(L"楷体", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(134)));
+			this->button1->Location = System::Drawing::Point(382, 237);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(237, 41);
+			this->button1->TabIndex = 2;
+			this->button1->Text = L"登  录";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &LoginForm::button1_Click);
 			// 
-			// schLogo
+			// supLink
 			// 
-			resources->ApplyResources(this->schLogo, L"schLogo");
-			this->schLogo->Name = L"schLogo";
-			this->schLogo->TabStop = false;
+			this->supLink->ActiveLinkColor = System::Drawing::Color::Black;
+			this->supLink->AutoSize = true;
+			this->supLink->LinkBehavior = System::Windows::Forms::LinkBehavior::NeverUnderline;
+			this->supLink->LinkColor = System::Drawing::Color::Black;
+			this->supLink->Location = System::Drawing::Point(263, 300);
+			this->supLink->Name = L"supLink";
+			this->supLink->Size = System::Drawing::Size(137, 12);
+			this->supLink->TabIndex = 3;
+			this->supLink->TabStop = true;
+			this->supLink->Text = L"技术支持: 华南理工大学";
+			this->supLink->VisitedLinkColor = System::Drawing::Color::Black;
+			this->supLink->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &LoginForm::supLink_LinkClicked);
 			// 
-			// tecSupportLink
+			// LoginForm
 			// 
-			resources->ApplyResources(this->tecSupportLink, L"tecSupportLink");
-			this->tecSupportLink->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
-			this->tecSupportLink->LinkBehavior = System::Windows::Forms::LinkBehavior::NeverUnderline;
-			this->tecSupportLink->LinkColor = System::Drawing::Color::Black;
-			this->tecSupportLink->Name = L"tecSupportLink";
-			this->tecSupportLink->TabStop = true;
-			this->tecSupportLink->VisitedLinkColor = System::Drawing::Color::Gray;
-			this->tecSupportLink->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &loginForm::linkLabel1_LinkClicked);
-			// 
-			// loginForm
-			// 
-			resources->ApplyResources(this, L"$this");
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackColor = System::Drawing::SystemColors::Window;
-			this->Controls->Add(this->tecSupportLink);
-			this->Controls->Add(this->schLogo);
+			this->ClientSize = System::Drawing::Size(670, 317);
+			this->Controls->Add(this->supLink);
+			this->Controls->Add(this->button1);
 			this->Controls->Add(this->loginPanel);
+			this->Controls->Add(this->pictureBox1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->MaximizeBox = false;
-			this->MinimizeBox = false;
-			this->Name = L"loginForm";
+			this->Name = L"LoginForm";
 			this->ShowIcon = false;
-			this->Load += gcnew System::EventHandler(this, &loginForm::loginForm_Load);
+			this->Text = L"教务管理系统";
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->loginPanel->ResumeLayout(false);
 			this->loginPanel->PerformLayout();
-			this->loginGroupBox->ResumeLayout(false);
-			this->loginGroupBox->PerformLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->schLogo))->EndInit();
+			this->groupBox1->ResumeLayout(false);
+			this->groupBox1->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void 打开ToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-		MessageBox::Show("hello");
-	}
-	private: System::Void loginForm_Load(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void richTextBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void label1_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void linkLabel1_LinkClicked(System::Object^  sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^  e) {
-		try {
-			Diagnostics::Process::Start("http://www.scut.edu.cn");
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+		//验证用户的登录信息
+		String ^accStr = accTbox->Text;
+		String  ^psStr = psTbox->Text;
+
+		if (adRadio->Checked) {
+			//MessageBox::Show("欢迎教师登录");
+			if (accStr->Equals("a") && psStr->Equals("1")) {
+				//生成新窗口
+				adIndexForm ^ ad = gcnew adIndexForm(accTbox->Text);
+				this->Visible = false;
+				ad->Show();
+				//Application::OpenForms["adIndexForm"]
+
+			}
+			else {
+				MessageBox::Show("账户名或者密码错误，请查账");
+			}
 		}
-		catch (Exception ^ ex) {
+		if (stuRadio->Checked) {
+			MessageBox::Show("学生你好，欢迎登陆");
+			//查询数据库，进行登陆
+		}
+	}
+	private: System::Void supLink_LinkClicked(System::Object^  sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^  e) {
+		try {
+			Diagnostics::Process::Start("http://202.38.194.240:8000/cs/szdw/js/xn/17bvfdd0eicq1.xhtml");
+		}
+		catch (Win32Exception ^) {
 			MessageBox::Show("some error exists");
 		}
 	}
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-		String ^accStr = AccBox->Text;
-		String ^psStr = psBox->Text;
-
-
-
-		//使用文件或者数据库验证账户密码
-		if (accStr->Equals("sa") && psStr->Equals("123")) {
-			MessageBox::Show("welcome to this system ");
-		}
-		else {
-			MessageBox::Show("There are some wrongs in your account or password!");
-		}
-	}
-	private: System::Void radioButton2_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-	}
 	};
 }
-

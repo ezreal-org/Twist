@@ -51,6 +51,15 @@
     <ClInclude Include="storage.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="adIndexForm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stuList.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="addStu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="calForm.cpp">

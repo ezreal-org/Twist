@@ -121,7 +121,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies />
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -146,7 +146,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies />
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -173,6 +173,12 @@
     <ClCompile Include="calForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="addStu.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="adIndexForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="childForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -201,8 +207,14 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="storage.h" />
+    <ClInclude Include="stuList.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="adIndexForm.resx">
+      <DependentUpon>adIndexForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="calForm.resx">
       <DependentUpon>calForm.h</DependentUpon>
       <SubType>Designer</SubType>
@@ -228,6 +240,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="netServer.resx">
       <DependentUpon>netServer.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="stuList.resx">
+      <DependentUpon>stuList.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

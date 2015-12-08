@@ -6,34 +6,14 @@ using namespace std;
 
 namespace ManagementSystemV5 {
 	using namespace System::Data::Odbc;
-
+	using namespace System::IO;
 	public ref class Storage
 	{
 	private:
 		OdbcConnection^ Conn;
 		OdbcDataAdapter ^adapter;
 		DataSet^ set;
-	public:
-		SchoolMember* readSchoolMemberInfo(char *id)
-		{
-			SchoolMember*  p1 = new SchoolMember();
-			fstream f;
-			char path[50];
-			sprintf(path, "D:\\%s.dat", id);
-			f.open(path, ios::in | ios::binary);
-			f.read((char*)p1, sizeof(SchoolMember));
-			f.close();
-			return p1;
-		}
-		void writeSchoolMemberInfo(SchoolMember *p)
-		{
-			fstream f;
-			char path[50];
-			sprintf(path, "D:\\%s.dat", p->getId());
-			f.open(path, ios::out | ios::binary);
-			f.write((char*)p, sizeof(SchoolMember));
-			f.close();
-		}
+
 		void dbConnect()
 		{
 			Conn = gcnew OdbcConnection("DSN=ManagementSystemV5;UI=root;PWD=tk;");
@@ -79,11 +59,60 @@ namespace ManagementSystemV5 {
 				MessageBox::Show("store erro");
 			}
 		}
+
+	public:
+		SchoolMember* readSchoolMemberInfo(char *id)
+		{
+			SchoolMember*  p1 = new SchoolMember();
+			fstream f;
+			char path[50];
+			sprintf(path, "D:\\stu\\%s.dat", id);
+			f.open(path, ios::in | ios::binary);
+			f.read((char*)p1, sizeof(SchoolMember));
+			f.close();
+			return p1;
+		}
+		void writeSchoolMemberInfo(SchoolMember *p)
+		{
+			fstream f;
+			char path[50];
+			sprintf(path, "D:\\stu\\%s %s.dat", p->getId(),p->getName());
+			f.open(path, ios::out | ios::binary);
+			f.write((char*)p, sizeof(SchoolMember));
+			f.close();
+		}
+		cli::array<String^>^ readAllFileName()
+		{
+			String^ pattern = "*.dat";
+			IO::DirectoryInfo ^directoryInfo = gcnew DirectoryInfo("D://stu//");
+			cli::array<FileInfo^>^fileCollection  = directoryInfo->GetFiles(pattern);
+			cli::array<String^>^ retString = gcnew cli::array<String^>(fileCollection->Length);
+			for (int i = 0; i < fileCollection->Length; i++)
+			{
+				retString[i] = fileCollection[i]->Name->Substring(0,fileCollection[i]->Name->IndexOf("."));
+			}
+			return retString;
+		}
 		SchoolMember* readSchoolMemberInfoDB(char *id)
 		{
 			dbConnect();
 			DataRow^ row = getRowById(id);
-			MessageBox::Show(row["id"] + " " + row["name"]);
+			if (row != nullptr)
+			{
+				SchoolMember* pm1 = new SchoolMember();
+				char name[20];
+				char province[10];
+				char city[10];
+				sprintf(name, "%s", (String^)row["name"]);
+				sprintf(province, "%s", (String^)row["province"]);
+				sprintf(city, "%s", (String^)row["city"]);
+				pm1->setId(id);
+				pm1->setName(name);
+				pm1->setBirthPlace(province,city);
+				pm1->setAge((int)row["age"]);
+				pm1->setSex((int)row["sex"]);
+				return pm1;
+			}
 			return nullptr;
 		}
 		void writeSchoolMemberInfoDB(SchoolMember *p)
@@ -99,19 +128,21 @@ namespace ManagementSystemV5 {
 			newRow["name"] = gcnew String(str.c_str());
 			newRow["sex"] = p->getSex();
 			newRow["age"] = p->getAge();
-			str = p->getCity();
+			char *province;
+			char *city;
+			p->getBirthPlace(province,city);
+			str = province;
+			str += city;
 			newRow["homeCity"] = gcnew String(str.c_str());
 			row = getRowById(p->getId());
 			if (row != nullptr) //修改
 			{
-				row->Delete();	//简单的先删除
-				table->Rows->Add(newRow); //再添加
+				row->Delete();	//可以简单的先删除,再添加,也可以直接修改row
+			
 			}
-			else //加入
-			{
-				table->Rows->Add(newRow);
-			}
+			table->Rows->Add(newRow);
 			persistent();
 		}
 	};
+	
 }

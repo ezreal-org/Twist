@@ -5,7 +5,7 @@
 
 vector<string> files;
 
-void getFiles(string path, vector<string>& files)
+static void getFiles(string path, vector<string>& files)
 {
 	//нд╪Ч╬Д╠З
 	long   hFile = 0;
