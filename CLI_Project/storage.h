@@ -61,6 +61,66 @@ namespace ManagementSystemV5 {
 		}
 
 	public:
+		bool login(int flag,char* name,char* passwd) //不同flag对应不同类型用户登录文件
+		{
+			char buffer[100];
+			char loginInfo[100];
+			ifstream input;
+
+			char *path = "C:\\login\\admin.txt";
+			if (flag)
+				path = "C:\\login\\stu.txt";
+			sprintf(loginInfo, "%s|%s", name, passwd);
+			input.open(path,ios::in);
+			if (!input) { cout << "文件打开失败" << endl; return false; }
+			while (!input.eof())
+			{
+				input.getline(buffer, 100);
+				if (!strcmp(loginInfo, buffer))
+				{
+					input.close();
+					return true;
+				}
+			}
+			input.close();
+			return false;
+		}
+		bool updateInfo(int flag, char* name,char* oldpw,char *passwd)
+		{
+			char buffer[100];
+			char newLoginInfo[100];
+			char oldLoginInfo[100];
+			bool ret = false;
+			string strFile = ""; //考虑到文件比较小，修改某一行直接通过文件拼接
+			fstream io;
+
+			char *path = "C:\\login\\admin.txt";
+			if (flag)
+				path = "C:\\login\\stu.txt";
+			sprintf(newLoginInfo, "%s|%s", name, passwd);
+			sprintf(oldLoginInfo, "%s|%s", name, oldpw);
+			io.open(path,ios::in);
+			if (!io) { cout << "文件打开失败" << endl; return false; }
+			while (!io.eof()) //组建新文件
+			{
+				io.getline(buffer, 100);
+				if (!strcmp(oldLoginInfo, buffer))
+				{
+					ret = true;
+					strFile += newLoginInfo;
+					strFile += "\n";
+					continue;
+				}
+				strFile += buffer;
+				strFile += "\n";
+			}
+			io.close();
+			io.open(path, ios::out);
+			io << strFile.substr(0,strFile.size()-1);//去掉最后的换行
+			io.close();
+			return ret;
+		}
+
 		SchoolMember* readSchoolMemberInfo(char *id)
 		{
 			SchoolMember*  p1 = new SchoolMember();

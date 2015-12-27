@@ -1,5 +1,6 @@
 #pragma once
 #include "adIndexForm.h" //引入管理员以及学院端的首页窗体文件
+#include "adIndexForm_v4.h"
 
 namespace ManagementSystemV5 {
 
@@ -148,6 +149,7 @@ namespace ManagementSystemV5 {
 			this->psTbox->Name = L"psTbox";
 			this->psTbox->Size = System::Drawing::Size(182, 29);
 			this->psTbox->TabIndex = 3;
+			this->psTbox->UseSystemPasswordChar = true;
 			// 
 			// accTbox
 			// 
@@ -241,12 +243,16 @@ namespace ManagementSystemV5 {
 		//验证用户的登录信息
 		String ^accStr = accTbox->Text;
 		String  ^psStr = psTbox->Text;
-
+		char name[20];
+		char passwd[20];
+		sprintf(name, "%s", accStr);
+		sprintf(passwd, "%s", psStr);
+		Storage storage1;
 		if (adRadio->Checked) {
 			//MessageBox::Show("欢迎教师登录");
-			if (accStr->Equals("a") && psStr->Equals("1")) {
+			if (storage1.login(0, name, passwd)) {
 				//生成新窗口
-				adIndexForm ^ ad = gcnew adIndexForm(accTbox->Text);
+				adIndexForm_v4 ^ ad = gcnew adIndexForm_v4(accTbox->Text);
 				this->Visible = false;
 				ad->Show();
 				//Application::OpenForms["adIndexForm"]

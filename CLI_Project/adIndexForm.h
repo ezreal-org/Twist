@@ -1,6 +1,7 @@
 #pragma once
 #include "addStu.h"
 #include "stuList.h"
+#include "stuList_c4.h"
 
 namespace ManagementSystemV5 {
 
@@ -136,8 +137,10 @@ namespace ManagementSystemV5 {
 	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
 
 		if (Application::OpenForms["stuList"] == nullptr) {
-			stuList ^showList = gcnew stuList();
-			showList->Show();
+			//stuList ^showList = gcnew stuList();
+			//showList->Show();
+			stuList_c4 ^list_c4 = gcnew stuList_c4();
+			list_c4->Show();
 		}
 		else {
 			//窗体已经存在， 应该把它显示出来，而不是从新定义一个

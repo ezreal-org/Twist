@@ -179,10 +179,16 @@
     <ClInclude Include="adIndexForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="adIndexForm_v4.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="childForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="followForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="HelpInfo.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="jayce.h" />
@@ -205,15 +211,24 @@
     <ClInclude Include="netServer.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="updatePasswd.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="storage.h" />
     <ClInclude Include="stuList.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="stuList_c4.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="adIndexForm.resx">
       <DependentUpon>adIndexForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adIndexForm_v4.resx">
+      <DependentUpon>adIndexForm_v4.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="calForm.resx">
       <DependentUpon>calForm.h</DependentUpon>
@@ -241,8 +256,14 @@
     <EmbeddedResource Include="netServer.resx">
       <DependentUpon>netServer.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="updatePasswd.resx">
+      <DependentUpon>updatePasswd.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="stuList.resx">
       <DependentUpon>stuList.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="stuList_c4.resx">
+      <DependentUpon>stuList_c4.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
