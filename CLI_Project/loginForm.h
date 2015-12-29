@@ -1,6 +1,8 @@
 #pragma once
 #include "adIndexForm.h" //引入管理员以及学院端的首页窗体文件
 #include "adIndexForm_v4.h"
+#include "stuIndexForm.h"
+#include "memberInfo.h"
 
 namespace ManagementSystemV5 {
 
@@ -53,7 +55,7 @@ namespace ManagementSystemV5 {
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::LinkLabel^  supLink;
-
+	private: LoginInfo^ thisLogin;
 
 	private:
 		/// <summary>
@@ -243,27 +245,30 @@ namespace ManagementSystemV5 {
 		//验证用户的登录信息
 		String ^accStr = accTbox->Text;
 		String  ^psStr = psTbox->Text;
-		char name[20];
-		char passwd[20];
-		sprintf(name, "%s", accStr);
-		sprintf(passwd, "%s", psStr);
 		Storage storage1;
 		if (adRadio->Checked) {
 			//MessageBox::Show("欢迎教师登录");
-			if (storage1.login(0, name, passwd)) {
+			//if (storage1.login(0, name, passwd)) {
+			thisLogin = storage1.loginDB(1,accStr, psStr);
+			if (thisLogin!=nullptr) {
 				//生成新窗口
-				adIndexForm_v4 ^ ad = gcnew adIndexForm_v4(accTbox->Text);
+				//adIndexForm_v4 ^ ad = gcnew adIndexForm_v4(accTbox->Text);
+				adIndexForm_v4 ^ ad = gcnew adIndexForm_v4(thisLogin);
 				this->Visible = false;
 				ad->Show();
 				//Application::OpenForms["adIndexForm"]
-
 			}
 			else {
 				MessageBox::Show("账户名或者密码错误，请查账");
 			}
 		}
 		if (stuRadio->Checked) {
-			MessageBox::Show("学生你好，欢迎登陆");
+			thisLogin = storage1.loginDB(2, accStr, psStr);
+			if (thisLogin != nullptr) {
+				stuIndexForm ^ ad = gcnew stuIndexForm(thisLogin);
+				this->Visible = false;
+				ad->Show();
+			}
 			//查询数据库，进行登陆
 		}
 	}

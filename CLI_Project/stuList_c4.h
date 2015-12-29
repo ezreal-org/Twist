@@ -416,16 +416,14 @@ namespace ManagementSystemV5 {
 			SchoolMember* pm1 = new SchoolMember();
 			pm1->setId((char*)(Marshal::StringToHGlobalAnsi(stuNo)).ToPointer());
 			pm1->setName((char*)(Marshal::StringToHGlobalAnsi(name)).ToPointer());
-			pm1->setBirthPlace("未知", "未知");
 			pm1->setSex(gender);
-			pm1->setAge(20);
 			pm1->setBirthday(year, month, day);
-			pm1->setMajor(2);
 			pm1->setIdNumber((char*)(Marshal::StringToHGlobalAnsi(idNo)).ToPointer());
 			pm1->setExtraInfo((char*)(Marshal::StringToHGlobalAnsi(noteStr)).ToPointer());
 			pm1->setIsTalent(isTal);
 			pm1->setPicpath((char*)(Marshal::StringToHGlobalAnsi(picPath)).ToPointer());
-			storage1.writeSchoolMemberInfo(pm1);
+			//storage1.writeSchoolMemberInfo(pm1);
+			storage1.writeSchoolMemberInfoDB(pm1);
 			delete pm1;
 			this->button1->Text = "修 改";
 			setAllControler(false);
@@ -447,7 +445,8 @@ namespace ManagementSystemV5 {
 
 	private: void addStuToList() {
 		Storage storage1;
-		array<String ^> ^list = storage1.readAllFileName();
+		//array<String ^> ^list = storage1.readAllFileName();
+		array<String ^> ^list = storage1.readAllStuSummaryInfo();
 		//this->allStuList->Items->Add("请选择查询学生");
 		String ^stuName = gcnew String("");
 		String ^stuIdNum = gcnew String("");
@@ -485,8 +484,9 @@ namespace ManagementSystemV5 {
 		char path[20];
 		char *province;
 		char *city;
-		sprintf(path, "%s", stuIdNum+stuName);
-		pm1 = storage1.readSchoolMemberInfo(path);
+		sprintf(path, "%s", stuIdNum);
+		//pm1 = storage1.readSchoolMemberInfo(path);
+		pm1 = storage1.readSchoolMemberInfoDB(path);
 		//更新panel中的个人信息,用string中转
 		string str = pm1->getName(); //姓名
 		this->nameTbox->Text = gcnew String(str.c_str());

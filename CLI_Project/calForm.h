@@ -775,7 +775,6 @@ namespace ManagementSystemV5{
 
 		}
 		*/
-		
 	}
 private: System::Void calForm_Load(System::Object^  sender, System::EventArgs^  e) {
 	toolTip1->SetToolTip(tb_calculateWindow, "ÀúÊ·´°¿Ú");

@@ -1,7 +1,7 @@
 #pragma once
 #include "storage.h"
-#include <iostream>
-#include <string>
+#include "memberInfo.h"
+
 namespace ManagementSystemV5 {
 
 	using namespace System;
@@ -10,15 +10,16 @@ namespace ManagementSystemV5 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-	using namespace std;
+
 	/// <summary>
-	/// stuList 摘要
+	/// stuInfo 摘要
 	/// </summary>
-	public ref class stuList : public System::Windows::Forms::Form
+	public ref class stuInfo : public System::Windows::Forms::Form
 	{
 	public:
-		stuList(void)
+		stuInfo(LoginInfo ^login)
 		{
+			this->thisLogin = login;
 			InitializeComponent();
 			//
 			//TODO:  在此处添加构造函数代码
@@ -29,27 +30,21 @@ namespace ManagementSystemV5 {
 		/// <summary>
 		/// 清理所有正在使用的资源。
 		/// </summary>
-		~stuList()
+		~stuInfo()
 		{
 			if (components)
 			{
 				delete components;
 			}
 		}
-
-	protected:
-
-	private: System::Windows::Forms::ListBox^  allStuList;
 	private: System::Windows::Forms::Panel^  showInfoPanel;
-	private: System::Windows::Forms::Button^  button1;
+	protected:
 	public: System::Windows::Forms::TabControl^  tabControl1;
 	private:
 	private: System::Windows::Forms::TabPage^  basicInfo;
 	public:
 	private: System::Windows::Forms::PictureBox^  photo;
 	private: System::Windows::Forms::Button^  lookButton;
-
-
 	private: System::Windows::Forms::TextBox^  picTbox;
 	private: System::Windows::Forms::TextBox^  noTbox;
 	private: System::Windows::Forms::TextBox^  nameTbox;
@@ -66,10 +61,7 @@ namespace ManagementSystemV5 {
 	private: System::Windows::Forms::CheckBox^  isTalent;
 	private: System::Windows::Forms::MaskedTextBox^  IDMaskedTextBox;
 	private: System::Windows::Forms::Label^  label6;
-	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
-
-
-
+	private: LoginInfo^ thisLogin;
 	private:
 		/// <summary>
 		/// 必需的设计器变量。
@@ -83,7 +75,6 @@ namespace ManagementSystemV5 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->allStuList = (gcnew System::Windows::Forms::ListBox());
 			this->showInfoPanel = (gcnew System::Windows::Forms::Panel());
 			this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 			this->basicInfo = (gcnew System::Windows::Forms::TabPage());
@@ -105,8 +96,6 @@ namespace ManagementSystemV5 {
 			this->isTalent = (gcnew System::Windows::Forms::CheckBox());
 			this->IDMaskedTextBox = (gcnew System::Windows::Forms::MaskedTextBox());
 			this->label6 = (gcnew System::Windows::Forms::Label());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->showInfoPanel->SuspendLayout();
 			this->tabControl1->SuspendLayout();
 			this->basicInfo->SuspendLayout();
@@ -114,24 +103,13 @@ namespace ManagementSystemV5 {
 			this->addInfo->SuspendLayout();
 			this->SuspendLayout();
 			// 
-			// allStuList
-			// 
-			this->allStuList->FormattingEnabled = true;
-			this->allStuList->ItemHeight = 12;
-			this->allStuList->Location = System::Drawing::Point(12, 13);
-			this->allStuList->Name = L"allStuList";
-			this->allStuList->Size = System::Drawing::Size(93, 148);
-			this->allStuList->TabIndex = 0;
-			this->allStuList->SelectedIndexChanged += gcnew System::EventHandler(this, &stuList::listBox1_SelectedIndexChanged);
-			// 
 			// showInfoPanel
 			// 
 			this->showInfoPanel->Controls->Add(this->tabControl1);
-			this->showInfoPanel->Location = System::Drawing::Point(111, -2);
+			this->showInfoPanel->Location = System::Drawing::Point(18, 4);
 			this->showInfoPanel->Name = L"showInfoPanel";
 			this->showInfoPanel->Size = System::Drawing::Size(610, 192);
-			this->showInfoPanel->TabIndex = 2;
-			this->showInfoPanel->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &stuList::showInfoPanel_Paint);
+			this->showInfoPanel->TabIndex = 3;
 			// 
 			// tabControl1
 			// 
@@ -185,7 +163,6 @@ namespace ManagementSystemV5 {
 			this->lookButton->TabIndex = 22;
 			this->lookButton->Text = L"浏 览";
 			this->lookButton->UseVisualStyleBackColor = true;
-			this->lookButton->Click += gcnew System::EventHandler(this, &stuList::lookButton_Click);
 			// 
 			// picTbox
 			// 
@@ -328,31 +305,15 @@ namespace ManagementSystemV5 {
 			this->label6->TabIndex = 0;
 			this->label6->Text = L"身份证号";
 			// 
-			// button1
-			// 
-			this->button1->Location = System::Drawing::Point(12, 167);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(93, 23);
-			this->button1->TabIndex = 3;
-			this->button1->Text = L"修   改";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &stuList::button1_Click);
-			// 
-			// openFileDialog1
-			// 
-			this->openFileDialog1->FileName = L"openFileDialog1";
-			// 
-			// stuList
+			// stuInfo
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(711, 208);
-			this->Controls->Add(this->button1);
+			this->ClientSize = System::Drawing::Size(644, 214);
 			this->Controls->Add(this->showInfoPanel);
-			this->Controls->Add(this->allStuList);
-			this->Name = L"stuList";
-			this->Text = L"学生列表";
-			this->Load += gcnew System::EventHandler(this, &stuList::stuList_Load);
+			this->Name = L"stuInfo";
+			this->Text = L"个人信息";
+			this->Load += gcnew System::EventHandler(this, &stuInfo::stuInfo_Load);
 			this->showInfoPanel->ResumeLayout(false);
 			this->tabControl1->ResumeLayout(false);
 			this->basicInfo->ResumeLayout(false);
@@ -364,25 +325,35 @@ namespace ManagementSystemV5 {
 
 		}
 #pragma endregion
-	private: System::Void listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void stuInfo_Load(System::Object^  sender, System::EventArgs^  e) {
+		bool status = false;
+		this->nameTbox->Enabled = status;
+		this->birthPicker->Enabled = status;
+		this->genderCombo->Enabled = status;
+		this->noTbox->Enabled = status;
+		this->picTbox->Enabled = status;
+		this->lookButton->Enabled = status;
+		this->IDMaskedTextBox->Enabled = status;
+		this->isTalent->Enabled = status;
+		this->noteText->Enabled = status;
 
+		
 		SchoolMember* pm1;
 		Storage storage1;
-		char path[20];
-		char *province;
-		char *city;
-		sprintf(path, "%s", allStuList->SelectedItem->ToString());
-		pm1 = storage1.readSchoolMemberInfo(path);
+		char id[20];
+		sprintf(id, "%s",this->thisLogin->getId() );
+		//pm1 = storage1.readSchoolMemberInfo(path);
+		pm1 = storage1.readSchoolMemberInfoDB(id);
 		//更新panel中的个人信息,用string中转
 		string str = pm1->getName(); //姓名
 		this->nameTbox->Text = gcnew String(str.c_str());
 		str = pm1->getPicpath(); //图片路径
-		this->picTbox->Text  = gcnew String(str.c_str());
+		this->picTbox->Text = gcnew String(str.c_str());
 		str = pm1->getExtraInfo(); //附加信息
 		this->noteText->Text = gcnew String(str.c_str());
 		str = pm1->getId();   //学号
 		this->noTbox->Text = gcnew String(str.c_str());
-		str =  pm1->getIdNumber();  //身份证号
+		str = pm1->getIdNumber();  //身份证号
 		this->IDMaskedTextBox->Text = gcnew String(str.c_str());
 		//日期
 		char birBuf[5]; //string没有重载+int，用sprint函数用birBuf中转
@@ -397,93 +368,10 @@ namespace ManagementSystemV5 {
 		sprintf(birBuf, "%d", day);
 		str += birBuf;
 		str += "日";
-		this->birthPicker->Text = gcnew String(str.c_str()); 
+		this->birthPicker->Text = gcnew String(str.c_str());
 		this->isTalent->Checked = pm1->getIsTalent(); //是否特长
 		this->genderCombo->SelectedIndex = pm1->getSex(); //性别
-
-		setAllControler(false);
-		this->button1->Text = "修 改";
-		photo->ImageLocation = picTbox->Text;
-		delete pm1;
-
-	}
-	private: System::Void stuList_Load(System::Object^  sender, System::EventArgs^  e) {
-		addStuToList();
-	}
-	private: System::Void showInfoPanel_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-	}
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-		if (this->button1->Text == "修 改") {
-			setAllControler(true);
-			this->nameTbox->Enabled = false; //学号姓名不可更改
-			this->noTbox->Enabled = false;
-			this->button1->Text = "提 交";
-		}
-		else {
-			//创建新对象，更新文件系统
-			String ^name = nameTbox->Text;
-			String ^birthStr = birthPicker->Text;
-			int  gender = genderCombo->SelectedIndex;
-			String ^ stuNo = noTbox->Text;
-			String ^picPath = picTbox->Text;
-			String ^idNo = IDMaskedTextBox->Text;
-			String ^noteStr = noteText->Text;
-			bool isTal = isTalent->Checked;
-			int year, month, day;
-
-			DateTime t;
-			t = DateTime::Parse(birthStr);
-
-			year = Convert::ToInt16(t.Year.ToString());
-			month = Convert::ToInt16(t.Month.ToString());
-			day = Convert::ToInt16(t.Day.ToString());
-
-			Storage storage1;
-			SchoolMember* pm1 = new SchoolMember();
-			pm1->setId((char*)(Marshal::StringToHGlobalAnsi(stuNo)).ToPointer());
-			pm1->setName((char*)(Marshal::StringToHGlobalAnsi(name)).ToPointer());
-			pm1->setSex(gender);
-			pm1->setBirthday(year, month, day);
-			pm1->setIdNumber((char*)(Marshal::StringToHGlobalAnsi(idNo)).ToPointer());
-			pm1->setExtraInfo((char*)(Marshal::StringToHGlobalAnsi(noteStr)).ToPointer());
-			pm1->setIsTalent(isTal);
-			pm1->setPicpath((char*)(Marshal::StringToHGlobalAnsi(picPath)).ToPointer());
-			storage1.writeSchoolMemberInfo(pm1);
-			delete pm1;
-			this->button1->Text = "修 改";
-			setAllControler(false);
-		}
-
-	}
-
-	private: void setAllControler(bool status) {
-		this->nameTbox->Enabled = status;
-		this->birthPicker->Enabled = status;
-		this->genderCombo->Enabled = status;
-		this->noTbox->Enabled = status;
-		this->picTbox->Enabled = status;
-		this->lookButton->Enabled = status;
-		this->IDMaskedTextBox->Enabled = status;
-		this->isTalent->Enabled = status;
-		this->noteText->Enabled = status;
-	}
-
- private: void addStuToList() {
-	Storage storage1;
-	array<String ^> ^list =  storage1.readAllFileName();
-	//this->allStuList->Items->Add("请选择查询学生");
-	for each (String ^a in list)
-	{
-		this->allStuList->Items->Add(a);
-	 }
- }
-
-	private: System::Void lookButton_Click(System::Object^  sender, System::EventArgs^  e) {
-		openFileDialog1->ShowDialog();
-		picTbox->Text = openFileDialog1->FileName;
-		photo->ImageLocation = picTbox->Text;
+		
 	}
 };
-
-
 }

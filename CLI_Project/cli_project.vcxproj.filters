@@ -72,6 +72,12 @@
     <ClInclude Include="updatePasswd.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="stuIndexForm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stuInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="calForm.cpp">
@@ -131,9 +137,8 @@
     <None Include="C:\Users\Jayce\Downloads\icon128.ico">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\..\Cpp\CalDLL\Debug\CalDLL.lib" />
+    <Library Include="..\..\..\Cpp\CalDLL\x64\Debug\CalDLL.lib" />
   </ItemGroup>
 </Project>

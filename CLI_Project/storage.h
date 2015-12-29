@@ -14,17 +14,16 @@ namespace ManagementSystemV5 {
 		OdbcDataAdapter ^adapter;
 		DataSet^ set;
 
-		void dbConnect()
+		void dbConnect(String^ sql,String ^tableName)
 		{
 			Conn = gcnew OdbcConnection("DSN=ManagementSystemV5;UI=root;PWD=tk;");
-			String^ sql = "select* from schoolmember;";
 			adapter = gcnew OdbcDataAdapter(sql, Conn);
 			set = gcnew DataSet();
-			adapter->Fill(set, "schoolmember");
+			adapter->Fill(set, tableName);
 		}
-		DataRow^ getRowById(char* id)
+		DataRow^ getRowById(char* id,String ^tableName)
 		{
-			DataTable^ table = set->Tables["schoolmember"];
+			DataTable^ table = set->Tables[tableName];
 			DataRow^ newRow;
 			array<DataColumn^>^ keys = gcnew array<DataColumn^>(2);
 			keys[0] = table->Columns["id"];
@@ -36,12 +35,12 @@ namespace ManagementSystemV5 {
 			}
 			catch (MissingPrimaryKeyException^)
 			{
-				MessageBox::Show("没有返回行");
+				//MessageBox::Show("没有返回行");
 				return nullptr;
 			}
 			return newRow;
 		}
-		void persistent()
+		void persistent(String ^tableName)
 		{
 			DataSet^ updateSet;
 			try
@@ -50,7 +49,7 @@ namespace ManagementSystemV5 {
 				if (updateSet)
 				{
 					OdbcCommandBuilder^ b = gcnew OdbcCommandBuilder(adapter);
-					adapter->Update(updateSet, "schoolmember");
+					adapter->Update(updateSet, tableName);
 					set->AcceptChanges();
 				}
 			}
@@ -153,31 +152,93 @@ namespace ManagementSystemV5 {
 			}
 			return retString;
 		}
+		LoginInfo^ loginDB( int type,String ^name, String ^passwd) //不同flag对应不同类型用户登录文件
+		{														//返回用户ID
+			String ^sql = "select * from login";
+			dbConnect(sql, "login");
+			DataTable^ table = set->Tables["login"];
+		    for each(DataRow^ row in table->Rows)
+			{
+				if (((String^)(row["name"]) == name) && ((String^)(row["passwd"]) == passwd) && (type==(int)(row["type"])))  
+				{
+					LoginInfo^ thisLogin = gcnew LoginInfo((String^)(row["id"]),(int)(row["type"]), (String^)(row["name"]), (String^)(row["passwd"]));
+					return thisLogin;
+				}
+					
+			}
+			return nullptr;
+		}
+		bool updateLoginInfoByIdDB(char *id, char* oldpw, char* passwd)
+		{
+			String ^sql = "select * from login";
+			dbConnect(sql, "login");
+			DataTable^ table = set->Tables["login"];
+			DataRow^ row;
+			DataRow^ newRow = table->NewRow();
+			
+			row = getRowById(id, "login");
+			string temp;
+			temp = oldpw;
+			String^ strOldPasswd = gcnew String(temp.c_str());
+			temp = passwd;
+			String^ strNewPasswd = gcnew String(temp.c_str());
+			if ((String^)row["passwd"] != strOldPasswd) 
+			{
+				return false;
+			}
+			
+			newRow["id"] = (String^)row["id"];
+			newRow["name"] = (String^)row["name"];
+			newRow["type"] = (int)(row["type"]);
+			newRow["passwd"] = strNewPasswd;
+			row->Delete();	
+			table->Rows->Add(newRow);
+			persistent("login");
+			return true;
+		}
+		//表结构目前还没有和文件系统结构统一
 		SchoolMember* readSchoolMemberInfoDB(char *id)
 		{
-			dbConnect();
-			DataRow^ row = getRowById(id);
+			dbConnect("select * from schoolmember;", "schoolmember");
+			DataRow^ row = getRowById(id,"schoolmember");
 			if (row != nullptr)
 			{
 				SchoolMember* pm1 = new SchoolMember();
+				char id[20];
 				char name[20];
-				char province[10];
-				char city[10];
+				int sex;
+				Birthday birthday;
+				char picPath[50];
+				char idNumber[50];
+				bool isTalent;
+				char extraInfo[100];
+				sprintf(id, "%s", (String^)row["id"]);
 				sprintf(name, "%s", (String^)row["name"]);
-				sprintf(province, "%s", (String^)row["province"]);
-				sprintf(city, "%s", (String^)row["city"]);
+				sprintf(extraInfo, "%s", (String^)row["extraInfo"]);
+				sprintf(picPath, "%s", (String^)row["picPath"]);
+				sprintf(idNumber, "%s", (String^)row["idNum"]);
+				sex = (int)row["sex"];
+				birthday.year = (int)row["birthYear"];
+				birthday.month = (int)row["birthmonth"];
+				birthday.day = (int)row["birthday"];
+				isTalent = (int)row["isTalent"];
+
 				pm1->setId(id);
 				pm1->setName(name);
-				pm1->setBirthPlace(province,city);
-				pm1->setAge((int)row["age"]);
-				pm1->setSex((int)row["sex"]);
+				pm1->setExtraInfo(extraInfo);
+				pm1->setPicpath(picPath);
+				pm1->setIdNumber(idNumber);
+				pm1->setSex(sex);
+				pm1->setBirthday(birthday.year, birthday.month, birthday.day);
+				pm1->setIsTalent(isTalent);
+
 				return pm1;
 			}
 			return nullptr;
 		}
 		void writeSchoolMemberInfoDB(SchoolMember *p)
 		{
-			dbConnect();
+			dbConnect("select * from schoolmember;", "schoolmember");
 			DataTable^ table = set->Tables["schoolmember"];
 			DataRow^ row;
 			DataRow^ newRow = table->NewRow();
@@ -187,21 +248,43 @@ namespace ManagementSystemV5 {
 			str = p->getName();
 			newRow["name"] = gcnew String(str.c_str());
 			newRow["sex"] = p->getSex();
-			newRow["age"] = p->getAge();
-			char *province;
-			char *city;
-			p->getBirthPlace(province,city);
-			str = province;
-			str += city;
-			newRow["homeCity"] = gcnew String(str.c_str());
-			row = getRowById(p->getId());
+			int year, month, day;
+			p->getBirthday(year,month,day);
+			newRow["birthYear"] = year;
+			newRow["birthMonth"] = month;
+			newRow["birthDay"] = day;
+			newRow["isTalent"] = p->getIsTalent();
+			str = p->getPicpath();
+			newRow["picPath"] = gcnew String(str.c_str());
+			str = p->getExtraInfo();
+			newRow["extraInfo"] = gcnew String(str.c_str());
+			str = p->getIdNumber();
+			newRow["idNum"] = gcnew String(str.c_str());
+
+			row = getRowById(p->getId(),"schoolmember");
 			if (row != nullptr) //修改
 			{
 				row->Delete();	//可以简单的先删除,再添加,也可以直接修改row
 			
 			}
 			table->Rows->Add(newRow);
-			persistent();
+			persistent("schoolmember");
+		}
+
+		array<String^>^ readAllStuSummaryInfo()
+		{
+			dbConnect("select * from schoolmember", "schoolmember");
+			DataTable^ table = set->Tables["schoolmember"];
+			cout << table->Rows->Count;
+			cli::array<String^>^ retString = gcnew cli::array<String^>(table->Rows->Count);
+			int index = 0;
+			for each(DataRow^ row in table->Rows)
+			{
+				retString[index] = (String^)(row["id"]);
+				retString[index] += " ";
+				retString[index++] += (String^)(row["name"]);
+			}
+			return retString;
 		}
 	};
 	

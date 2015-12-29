@@ -388,16 +388,14 @@ namespace ManagementSystemV5 {
 		SchoolMember* pm1 = new SchoolMember();
 		pm1->setId((char*)(Marshal::StringToHGlobalAnsi(stuNo)).ToPointer());
 		pm1->setName((char*)(Marshal::StringToHGlobalAnsi(name)).ToPointer());
-		pm1->setBirthPlace("δ֪", "δ֪");
 		pm1->setSex(gender);
-		pm1->setAge(20);
 		pm1->setBirthday(year, month, day);
-		pm1->setMajor(2);
 		pm1->setIdNumber((char*)(Marshal::StringToHGlobalAnsi(idNo)).ToPointer());
 		pm1->setExtraInfo((char*)(Marshal::StringToHGlobalAnsi(noteStr)).ToPointer());
 		pm1->setIsTalent(isTal);
 		pm1->setPicpath((char*)(Marshal::StringToHGlobalAnsi(picPath)).ToPointer());
-		storage1.writeSchoolMemberInfo(pm1);
+		//storage1.writeSchoolMemberInfo(pm1);
+		storage1.writeSchoolMemberInfoDB(pm1);
 		delete pm1;
 
 

@@ -211,6 +211,12 @@
     <ClInclude Include="netServer.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="stuIndexForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="stuInfo.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="updatePasswd.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -256,6 +262,12 @@
     <EmbeddedResource Include="netServer.resx">
       <DependentUpon>netServer.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="stuIndexForm.resx">
+      <DependentUpon>stuIndexForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="stuInfo.resx">
+      <DependentUpon>stuInfo.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="updatePasswd.resx">
       <DependentUpon>updatePasswd.h</DependentUpon>
     </EmbeddedResource>
@@ -272,10 +284,9 @@
   <ItemGroup>
     <None Include="C:\Users\Jayce\Downloads\icon128.ico" />
     <None Include="C:\Users\Jayce\Downloads\icon64.ico" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\..\Cpp\CalDLL\Debug\CalDLL.lib" />
+    <Library Include="..\..\..\Cpp\CalDLL\x64\Debug\CalDLL.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

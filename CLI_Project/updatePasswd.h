@@ -1,4 +1,5 @@
 #pragma once
+#include "memberInfo.h"
 
 namespace ManagementSystemV5 {
 
@@ -15,9 +16,10 @@ namespace ManagementSystemV5 {
 	public ref class updatePasswd : public System::Windows::Forms::Form
 	{
 	public:
-		updatePasswd(String^ name)
+		updatePasswd(LoginInfo ^login)
 		{
-			userName = name;
+			//userName = name;
+			this->thisLogin = login;
 			InitializeComponent();
 			//
 			//TODO:  在此处添加构造函数代码
@@ -46,7 +48,7 @@ namespace ManagementSystemV5 {
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
 	private: String^ userName;
-
+	private: LoginInfo ^thisLogin;
 
 	private:
 		/// <summary>
@@ -203,7 +205,10 @@ private: System::Void subButton_Click(System::Object^  sender, System::EventArgs
 		MessageBox::Show("确保两次密码输入一致！");
 		return;
 	}
-	if (storage1.updateInfo(0, name, oldPasswd, newPasswd)) //在updateInfo函数返回前name等数组空间是有效的
+	//if (storage1.updateInfo(0, name, oldPasswd, newPasswd)) //在updateInfo函数返回前name等数组空间是有效的
+	char id[20];
+	sprintf(id, "%s", this->thisLogin->getId());
+	if (storage1.updateLoginInfoByIdDB( id, oldPasswd, newPasswd))
 	{														//一般只要不在return的时候用局部地址就ok
 		MessageBox::Show("修改成功，即将返回...");
 		this->Close();

@@ -5,6 +5,7 @@
 #include "HelpInfo.h"
 #include "updatePasswd.h"
 #include "memberInfo.h"
+#include "stuInfo.h"
 
 namespace ManagementSystemV5 {
 
@@ -19,10 +20,10 @@ namespace ManagementSystemV5 {
 		/// <summary>
 		/// adFormNew 摘要
 		/// </summary>
-		public ref class adIndexForm_v4 : public System::Windows::Forms::Form
+		public ref class stuIndexForm : public System::Windows::Forms::Form
 		{
 		public:
-			adIndexForm_v4(LoginInfo^ login)
+			stuIndexForm(LoginInfo^ login)
 			{
 				InitializeComponent();
 				//
@@ -39,7 +40,7 @@ namespace ManagementSystemV5 {
 			/// <summary>
 			/// 清理所有正在使用的资源。
 			/// </summary>
-			~adIndexForm_v4()
+			~stuIndexForm()
 			{
 				if (components)
 				{
@@ -137,13 +138,14 @@ namespace ManagementSystemV5 {
 				this->修改密码ToolStripMenuItem->Name = L"修改密码ToolStripMenuItem";
 				this->修改密码ToolStripMenuItem->Size = System::Drawing::Size(176, 26);
 				this->修改密码ToolStripMenuItem->Text = L"修改密码";
-				this->修改密码ToolStripMenuItem->Click += gcnew System::EventHandler(this, &adIndexForm_v4::修改密码ToolStripMenuItem_Click);
+				this->修改密码ToolStripMenuItem->Click += gcnew System::EventHandler(this, &stuIndexForm::修改密码ToolStripMenuItem_Click);
 				// 
 				// 查询个人信息ToolStripMenuItem
 				// 
 				this->查询个人信息ToolStripMenuItem->Name = L"查询个人信息ToolStripMenuItem";
 				this->查询个人信息ToolStripMenuItem->Size = System::Drawing::Size(176, 26);
 				this->查询个人信息ToolStripMenuItem->Text = L"查询个人信息";
+				this->查询个人信息ToolStripMenuItem->Click += gcnew System::EventHandler(this, &stuIndexForm::查询个人信息ToolStripMenuItem_Click);
 				// 
 				// 学生管理ToolStripMenuItem
 				// 
@@ -161,8 +163,7 @@ namespace ManagementSystemV5 {
 				// 
 				this->新生注册ToolStripMenuItem->Name = L"新生注册ToolStripMenuItem";
 				this->新生注册ToolStripMenuItem->Size = System::Drawing::Size(144, 26);
-				this->新生注册ToolStripMenuItem->Text = L"新生注册";
-				this->新生注册ToolStripMenuItem->Click += gcnew System::EventHandler(this, &adIndexForm_v4::新生注册ToolStripMenuItem_Click);
+				this->新生注册ToolStripMenuItem->Text = L"新增选课";
 				// 
 				// 学生查阅ToolStripMenuItem
 				// 
@@ -172,20 +173,19 @@ namespace ManagementSystemV5 {
 				});
 				this->学生查阅ToolStripMenuItem->Name = L"学生查阅ToolStripMenuItem";
 				this->学生查阅ToolStripMenuItem->Size = System::Drawing::Size(144, 26);
-				this->学生查阅ToolStripMenuItem->Text = L"学生查阅";
+				this->学生查阅ToolStripMenuItem->Text = L"选课查询";
 				// 
 				// 所有学生ToolStripMenuItem
 				// 
 				this->所有学生ToolStripMenuItem->Name = L"所有学生ToolStripMenuItem";
-				this->所有学生ToolStripMenuItem->Size = System::Drawing::Size(176, 26);
-				this->所有学生ToolStripMenuItem->Text = L"所有学生";
-				this->所有学生ToolStripMenuItem->Click += gcnew System::EventHandler(this, &adIndexForm_v4::所有学生ToolStripMenuItem_Click);
+				this->所有学生ToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+				this->所有学生ToolStripMenuItem->Text = L"选修课";
 				// 
 				// 修改学生信息ToolStripMenuItem
 				// 
 				this->修改学生信息ToolStripMenuItem->Name = L"修改学生信息ToolStripMenuItem";
-				this->修改学生信息ToolStripMenuItem->Size = System::Drawing::Size(176, 26);
-				this->修改学生信息ToolStripMenuItem->Text = L"修改学生信息";
+				this->修改学生信息ToolStripMenuItem->Size = System::Drawing::Size(128, 26);
+				this->修改学生信息ToolStripMenuItem->Text = L"必修课";
 				// 
 				// toolStripSeparator1
 				// 
@@ -196,7 +196,7 @@ namespace ManagementSystemV5 {
 				// 
 				this->管理说明ToolStripMenuItem->Name = L"管理说明ToolStripMenuItem";
 				this->管理说明ToolStripMenuItem->Size = System::Drawing::Size(144, 26);
-				this->管理说明ToolStripMenuItem->Text = L"管理说明";
+				this->管理说明ToolStripMenuItem->Text = L"成绩查询";
 				// 
 				// 反馈信息处理ToolStripMenuItem
 				// 
@@ -211,15 +211,15 @@ namespace ManagementSystemV5 {
 				// 反馈信息处理ToolStripMenuItem1
 				// 
 				this->反馈信息处理ToolStripMenuItem1->Name = L"反馈信息处理ToolStripMenuItem1";
-				this->反馈信息处理ToolStripMenuItem1->Size = System::Drawing::Size(176, 26);
-				this->反馈信息处理ToolStripMenuItem1->Text = L"反馈信息处理";
+				this->反馈信息处理ToolStripMenuItem1->Size = System::Drawing::Size(144, 26);
+				this->反馈信息处理ToolStripMenuItem1->Text = L"反馈信息";
 				// 
 				// 关于系统ToolStripMenuItem
 				// 
 				this->关于系统ToolStripMenuItem->Name = L"关于系统ToolStripMenuItem";
-				this->关于系统ToolStripMenuItem->Size = System::Drawing::Size(176, 26);
+				this->关于系统ToolStripMenuItem->Size = System::Drawing::Size(144, 26);
 				this->关于系统ToolStripMenuItem->Text = L"关于系统";
-				this->关于系统ToolStripMenuItem->Click += gcnew System::EventHandler(this, &adIndexForm_v4::关于系统ToolStripMenuItem_Click);
+				this->关于系统ToolStripMenuItem->Click += gcnew System::EventHandler(this, &stuIndexForm::关于系统ToolStripMenuItem_Click);
 				// 
 				// statusStrip1
 				// 
@@ -232,14 +232,7 @@ namespace ManagementSystemV5 {
 				this->statusStrip1->Size = System::Drawing::Size(714, 22);
 				this->statusStrip1->TabIndex = 1;
 				this->statusStrip1->Text = L"statusStrip1";
-				this->statusStrip1->ItemClicked += gcnew System::Windows::Forms::ToolStripItemClickedEventHandler(this, &adIndexForm_v4::statusStrip1_ItemClicked);
-				// 
-				// NowData
-				// 
-				this->NowData->Name = L"NowData";
-				this->NowData->Size = System::Drawing::Size(32, 17);
-				this->NowData->Text = L"日期";
-				this->NowData->Click += gcnew System::EventHandler(this, &adIndexForm_v4::toolStripStatusLabel1_Click);
+			
 				// 
 				// toolStripStatusLabel2
 				// 
@@ -254,7 +247,7 @@ namespace ManagementSystemV5 {
 				// 
 				// timer1
 				// 
-				this->timer1->Tick += gcnew System::EventHandler(this, &adIndexForm_v4::timer1_Tick);
+				this->timer1->Tick += gcnew System::EventHandler(this, &stuIndexForm::timer1_Tick);
 				// 
 				// label1
 				// 
@@ -268,7 +261,7 @@ namespace ManagementSystemV5 {
 				this->label1->Size = System::Drawing::Size(0, 19);
 				this->label1->TabIndex = 2;
 				// 
-				// adIndexForm_v4
+				// stuIndexForm
 				// 
 				this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 				this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -280,10 +273,10 @@ namespace ManagementSystemV5 {
 				this->MainMenuStrip = this->stuMana;
 				this->MaximizeBox = false;
 				this->MinimizeBox = false;
-				this->Name = L"adIndexForm_v4";
+				this->Name = L"stuIndexForm";
 				this->ShowIcon = false;
 				this->Text = L"教务管理系统";
-				this->Load += gcnew System::EventHandler(this, &adIndexForm_v4::adIndexForm_v4_Load);
+				this->Load += gcnew System::EventHandler(this, &stuIndexForm::adIndexForm_v4_Load);
 				this->stuMana->ResumeLayout(false);
 				this->stuMana->PerformLayout();
 				this->statusStrip1->ResumeLayout(false);
@@ -293,10 +286,7 @@ namespace ManagementSystemV5 {
 
 			}
 #pragma endregion
-		private: System::Void toolStripStatusLabel1_Click(System::Object^  sender, System::EventArgs^  e) {
-		}
-		private: System::Void statusStrip1_ItemClicked(System::Object^  sender, System::Windows::Forms::ToolStripItemClickedEventArgs^  e) {
-		}
+		
 		private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 			DateTime monment = DateTime::Now;
 			int year = monment.Year;
@@ -327,26 +317,19 @@ private: System::Void 修改密码ToolStripMenuItem_Click(System::Object^  sender, S
 	reset->WindowState = FormWindowState::Maximized;
 	reset->Show();
 }
-private: System::Void 新生注册ToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-	addStu ^ add = gcnew addStu();
-	add->Name = "addStu";
-	add->MdiParent = this;
-	add->StartPosition = FormStartPosition::CenterParent;
-	add->WindowState = FormWindowState::Maximized;
-	add->Show();
-}
-private: System::Void 所有学生ToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-	stuList_c4 ^list = gcnew stuList_c4();
-	list->Name = "stuList";
-	list->MdiParent = this;
-	list->StartPosition = FormStartPosition::CenterParent;
-	list->WindowState = FormWindowState::Maximized;
-	list->Show();
-}
+
 private: System::Void adIndexForm_v4_Load(System::Object^  sender, System::EventArgs^  e) {
 	this->label1->Text = "欢 迎 ";
 	this->label1->Text += this->thisLogin->getName();
 
+}
+private: System::Void 查询个人信息ToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	stuInfo ^info = gcnew stuInfo(this->thisLogin);
+	info->MdiParent = this;
+	info->StartPosition = FormStartPosition::CenterParent;
+	info->WindowState = FormWindowState::Maximized;
+	info->Name = "stuInfo";
+	info->Show();
 }
 };
 
