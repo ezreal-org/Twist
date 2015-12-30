@@ -5,6 +5,7 @@
 #include "HelpInfo.h"
 #include "updatePasswd.h"
 #include "memberInfo.h"
+#include "staticticChart.h"
 
 namespace ManagementSystemV5 {
 
@@ -69,6 +70,9 @@ namespace ManagementSystemV5 {
 		private: System::Windows::Forms::Timer^  timer1;
 		private: System::Windows::Forms::Label^  label1;
 		private: System::ComponentModel::IContainer^  components;
+		private: System::Windows::Forms::ToolStripMenuItem^  学生统计ToolStripMenuItem1;
+		private: System::Windows::Forms::ToolStripMenuItem^  年龄统计ToolStripMenuItem;
+		private: System::Windows::Forms::ToolStripMenuItem^  省份分布ToolStripMenuItem;
 		private: LoginInfo ^thisLogin;
 		private:
 			/// <summary>
@@ -95,6 +99,9 @@ namespace ManagementSystemV5 {
 				this->修改学生信息ToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
 				this->管理说明ToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+				this->学生统计ToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+				this->年龄统计ToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+				this->省份分布ToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				this->反馈信息处理ToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				this->反馈信息处理ToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				this->关于系统ToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -112,9 +119,9 @@ namespace ManagementSystemV5 {
 				// 
 				this->stuMana->Font = (gcnew System::Drawing::Font(L"Microsoft YaHei UI", 12));
 				this->stuMana->GripStyle = System::Windows::Forms::ToolStripGripStyle::Visible;
-				this->stuMana->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+				this->stuMana->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(4) {
 					this->信息管理ToolStripMenuItem,
-						this->学生管理ToolStripMenuItem, this->反馈信息处理ToolStripMenuItem
+						this->学生管理ToolStripMenuItem, this->学生统计ToolStripMenuItem1, this->反馈信息处理ToolStripMenuItem
 				});
 				this->stuMana->Location = System::Drawing::Point(0, 0);
 				this->stuMana->Name = L"stuMana";
@@ -197,6 +204,29 @@ namespace ManagementSystemV5 {
 				this->管理说明ToolStripMenuItem->Name = L"管理说明ToolStripMenuItem";
 				this->管理说明ToolStripMenuItem->Size = System::Drawing::Size(144, 26);
 				this->管理说明ToolStripMenuItem->Text = L"管理说明";
+				// 
+				// 学生统计ToolStripMenuItem1
+				// 
+				this->学生统计ToolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+					this->年龄统计ToolStripMenuItem,
+						this->省份分布ToolStripMenuItem
+				});
+				this->学生统计ToolStripMenuItem1->Name = L"学生统计ToolStripMenuItem1";
+				this->学生统计ToolStripMenuItem1->Size = System::Drawing::Size(86, 25);
+				this->学生统计ToolStripMenuItem1->Text = L"学生统计";
+				// 
+				// 年龄统计ToolStripMenuItem
+				// 
+				this->年龄统计ToolStripMenuItem->Name = L"年龄统计ToolStripMenuItem";
+				this->年龄统计ToolStripMenuItem->Size = System::Drawing::Size(152, 26);
+				this->年龄统计ToolStripMenuItem->Text = L"生日分布";
+				this->年龄统计ToolStripMenuItem->Click += gcnew System::EventHandler(this, &adIndexForm_v4::年龄统计ToolStripMenuItem_Click);
+				// 
+				// 省份分布ToolStripMenuItem
+				// 
+				this->省份分布ToolStripMenuItem->Name = L"省份分布ToolStripMenuItem";
+				this->省份分布ToolStripMenuItem->Size = System::Drawing::Size(144, 26);
+				this->省份分布ToolStripMenuItem->Text = L"省份分布";
 				// 
 				// 反馈信息处理ToolStripMenuItem
 				// 
@@ -347,6 +377,12 @@ private: System::Void adIndexForm_v4_Load(System::Object^  sender, System::Event
 	this->label1->Text = "欢 迎 ";
 	this->label1->Text += this->thisLogin->getName();
 
+}
+private: System::Void 年龄统计ToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	staticticChart ^chart = gcnew staticticChart();
+	chart->Name = "chart";
+	chart->StartPosition = FormStartPosition::CenterScreen;
+	chart->Show();
 }
 };
 

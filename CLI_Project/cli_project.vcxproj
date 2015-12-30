@@ -211,6 +211,9 @@
     <ClInclude Include="netServer.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="staticticChart.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="stuIndexForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -261,6 +264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="netServer.resx">
       <DependentUpon>netServer.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="staticticChart.resx">
+      <DependentUpon>staticticChart.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="stuIndexForm.resx">
       <DependentUpon>stuIndexForm.h</DependentUpon>

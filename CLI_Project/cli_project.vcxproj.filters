@@ -78,6 +78,9 @@
     <ClInclude Include="stuInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="staticticChart.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="calForm.cpp">
@@ -122,6 +125,12 @@
       <Filter>资源文件</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="updatePasswd.resx">
+      <Filter>资源文件</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="stuIndexForm.resx">
+      <Filter>资源文件</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="stuInfo.resx">
       <Filter>资源文件</Filter>
     </EmbeddedResource>
   </ItemGroup>

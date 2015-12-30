@@ -445,17 +445,22 @@ namespace ManagementSystemV5 {
 
 	private: void addStuToList() {
 		Storage storage1;
+		SchoolMember *pm;
+		char id[20];
+		string str;
 		//array<String ^> ^list = storage1.readAllFileName();
 		array<String ^> ^list = storage1.readAllStuSummaryInfo();
-		//this->allStuList->Items->Add("请选择查询学生");
 		String ^stuName = gcnew String("");
 		String ^stuIdNum = gcnew String("");
 		for each (String ^a in list)
 		{
-			stuName = a->Substring(0, a->IndexOf(" "));
-			stuIdNum = a->Substring(a->IndexOf(" "));
-			ListViewItem ^listItem = gcnew ListViewItem(stuName);
-			listItem->SubItems->Add(stuIdNum);
+			stuIdNum = a;
+			sprintf(id, "%s", a);
+			pm = storage1.readSchoolMemberInfoDB(id);
+			str = pm->getName();
+			stuName = gcnew String(str.c_str());
+			ListViewItem ^listItem = gcnew ListViewItem(stuIdNum);
+			listItem->SubItems->Add(stuName);
 			lv_allStu->Items->Add(listItem);
 		}
 	}

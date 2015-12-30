@@ -280,9 +280,9 @@ namespace ManagementSystemV5 {
 			int index = 0;
 			for each(DataRow^ row in table->Rows)
 			{
-				retString[index] = (String^)(row["id"]);
-				retString[index] += " ";
-				retString[index++] += (String^)(row["name"]);
+				retString[index++] = (String^)(row["id"]);
+				//retString[index] += " ";
+				//retString[index++] += (String^)(row["name"]);
 			}
 			return retString;
 		}
