@@ -221,7 +221,7 @@ namespace ManagementSystemV5 {
 					{
 						p->flag = 0;
 					}
-					strSend = "1K#";
+					strSend = "1K";
 					Array::Clear(msg, 0, msg->Length);
 					msg = Encoding::UTF8->GetBytes(strSend);
 					for (ClientEntry^ p = pthis->pClientEntryHead; p != nullptr; p = p->next)
@@ -335,7 +335,7 @@ namespace ManagementSystemV5 {
 						}
 						char temp[50];
 						sprintf(temp, "%s", ce->name);
-						sprintf(temp, "User(%s),connected....\r\n", ce->name);
+						sprintf(temp, "学生(%s),已连接....\r\n", ce->name);
 						str = temp;
 						pthis->tb_history->Text += gcnew String(str.c_str());
 						pthis->tb_history->SelectionStart = pthis->tb_history->Text->Length;
@@ -364,14 +364,13 @@ namespace ManagementSystemV5 {
 private: System::Void btn_send_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (!(this->tb_send->Text->Contains("@")))
 	{
-		this->tb_history->Text += ("server to all: " + this->tb_send->Text + "\r\n");
+		this->tb_history->Text += ("管理员 对 所有人: " + this->tb_send->Text + "\r\n");
 		this->tb_history->SelectionStart = this->tb_history->Text->Length;
 		this->tb_history->ScrollToCaret();
 
 		String^ sendStr = gcnew String("");
 		sendStr = "2";
 		sendStr += this->tb_send->Text->ToString();
-		sendStr += "#";
 		this->tb_send->Text = "";
 		for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)
 		{
@@ -392,14 +391,13 @@ private: System::Void btn_send_Click(System::Object^  sender, System::EventArgs^
 		sprintf(peerName, "%s", this->tb_send->Text->Substring(1, indexOfBlank-1));
 		String^ sendStr = gcnew String("2");
 		sendStr += this->tb_send->Text->Substring(indexOfBlank+1);
-		sendStr += "#";
 		for (ClientEntry^ p = pClientEntryHead; p != nullptr; p = p->next)
 		{
 			sprintf(thisName, "%s", p->name);
 			if (strcmp(thisName, peerName) == 0)
 			{
 				p->sockClient->Send(Encoding::UTF8->GetBytes(sendStr));
-				this->tb_history->Text += ("Server to "+ p->name);
+				this->tb_history->Text += ("管理员 对 "+ p->name);
 				this->tb_history->Text += ":";
 				this->tb_history->Text += (this->tb_send->Text->Substring(indexOfBlank+1) + "\r\n");
 				this->tb_history->SelectionStart = this->tb_history->Text->Length;

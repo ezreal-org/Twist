@@ -115,28 +115,21 @@ namespace ManagementSystemV5 {
 		{
 			printf("client-----recvThread created success....\n");
 			feedbackStu^ pthis = (feedbackStu^)arg;
-			char sendBuf[50];
 			char recvBuf[50];
-			char disp[50];
-			string dispStr = "";
 			String^ str = gcnew String("");
 			while (1)
 			{
 				try {
 					str = "";
-					while (!str->Contains("#"))
-					{
-						cli::array<Byte>^ bytes = gcnew cli::array<Byte>(50);
-						Array::Clear(bytes, 0, bytes->Length);
-						pthis->sockClient->Receive(bytes);
-						str += Encoding::UTF8->GetString(bytes);
-					}
+					cli::array<Byte>^ bytes = gcnew cli::array<Byte>(50);
+					Array::Clear(bytes, 0, bytes->Length);
+					pthis->sockClient->Receive(bytes);
+					str += Encoding::UTF8->GetString(bytes);
 				}
 				catch (SocketException^)
 				{
 					return;
 				}
-				str = str->Replace("#", "");
 				sprintf(recvBuf, "%s", str);
 				if (strcmp(recvBuf, "1K") == 0)
 				{
@@ -150,7 +143,7 @@ namespace ManagementSystemV5 {
 				else
 				{
 					//测试显示中文字符占三个字节
-					pthis->tb_history->Text += "server: ";
+					pthis->tb_history->Text += "管理员: ";
 					pthis->tb_history->Text += str->Substring(1);
 					pthis->tb_history->Text += "\r\n";
 					pthis->tb_history->SelectionStart = pthis->tb_history->Text->Length;
@@ -184,7 +177,7 @@ namespace ManagementSystemV5 {
 		sendStr = "2";
 		sendStr += this->tb_send->Text->ToString();
 		this->sockClient->Send(Encoding::UTF8->GetBytes(sendStr));
-		this->tb_history->Text += ("me: " + this->tb_send->Text + "\r\n");
+		this->tb_history->Text += (this->Name +" : "+ this->tb_send->Text + "\r\n");
 		this->tb_send->Text = "";
 		this->tb_history->SelectionStart = this->tb_history->Text->Length;
 		this->tb_history->ScrollToCaret();
