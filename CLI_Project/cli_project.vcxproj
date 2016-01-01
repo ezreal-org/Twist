@@ -185,6 +185,12 @@
     <ClInclude Include="childForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="feedbackAdmin.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="feedbackStu.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="followForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -245,6 +251,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="childForm.resx">
       <DependentUpon>childForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="feedbackAdmin.resx">
+      <DependentUpon>feedbackAdmin.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="feedbackStu.resx">
+      <DependentUpon>feedbackStu.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="followForm.resx">
       <DependentUpon>followForm.h</DependentUpon>

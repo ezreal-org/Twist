@@ -6,6 +6,7 @@
 #include "updatePasswd.h"
 #include "memberInfo.h"
 #include "staticticChart.h"
+#include "feedbackAdmin.h"
 
 namespace ManagementSystemV5 {
 
@@ -225,7 +226,7 @@ namespace ManagementSystemV5 {
 				// 省份分布ToolStripMenuItem
 				// 
 				this->省份分布ToolStripMenuItem->Name = L"省份分布ToolStripMenuItem";
-				this->省份分布ToolStripMenuItem->Size = System::Drawing::Size(144, 26);
+				this->省份分布ToolStripMenuItem->Size = System::Drawing::Size(152, 26);
 				this->省份分布ToolStripMenuItem->Text = L"省份分布";
 				// 
 				// 反馈信息处理ToolStripMenuItem
@@ -243,6 +244,7 @@ namespace ManagementSystemV5 {
 				this->反馈信息处理ToolStripMenuItem1->Name = L"反馈信息处理ToolStripMenuItem1";
 				this->反馈信息处理ToolStripMenuItem1->Size = System::Drawing::Size(176, 26);
 				this->反馈信息处理ToolStripMenuItem1->Text = L"反馈信息处理";
+				this->反馈信息处理ToolStripMenuItem1->Click += gcnew System::EventHandler(this, &adIndexForm_v4::反馈信息处理ToolStripMenuItem1_Click);
 				// 
 				// 关于系统ToolStripMenuItem
 				// 
@@ -358,12 +360,12 @@ private: System::Void 修改密码ToolStripMenuItem_Click(System::Object^  sender, S
 	reset->Show();
 }
 private: System::Void 新生注册ToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-	addStu ^ add = gcnew addStu();
-	add->Name = "addStu";
-	add->MdiParent = this;
-	add->StartPosition = FormStartPosition::CenterParent;
-	add->WindowState = FormWindowState::Maximized;
-	add->Show();
+		addStu ^ add = gcnew addStu();
+		add->Name = "addStu";
+		add->MdiParent = this;
+		add->StartPosition = FormStartPosition::CenterParent;
+		add->WindowState = FormWindowState::Maximized;
+		add->Show();
 }
 private: System::Void 所有学生ToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	stuList_c4 ^list = gcnew stuList_c4();
@@ -383,6 +385,24 @@ private: System::Void 年龄统计ToolStripMenuItem_Click(System::Object^  sender, S
 	chart->Name = "chart";
 	chart->StartPosition = FormStartPosition::CenterScreen;
 	chart->Show();
+}
+private: System::Void 反馈信息处理ToolStripMenuItem1_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (Application::OpenForms["feedbackAdmin"] == nullptr)
+	{
+		feedbackAdmin ^feed = gcnew feedbackAdmin();
+		feed->Name = "feedbackAdmin";
+		feed->Text = "处理学生反馈";
+		feed->MdiParent = this;
+		feed->StartPosition = FormStartPosition::CenterParent;
+		feed->WindowState = FormWindowState::Maximized;
+		feed->Show();
+	}
+	else
+	{
+		while (this->ActiveMdiChild != Application::OpenForms["feedbackAdmin"])
+			this->ActiveMdiChild->Hide();
+	}
+	
 }
 };
 

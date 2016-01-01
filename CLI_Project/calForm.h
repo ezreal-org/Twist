@@ -682,6 +682,7 @@ namespace ManagementSystemV5{
 		kt1->Show();
 		*/
 		
+		/*
 		netClient^ c1 = gcnew netClient();
 		netClient^ c2 = gcnew netClient();
 		netClient^ c3 = gcnew netClient();
@@ -704,7 +705,7 @@ namespace ManagementSystemV5{
 		j1->Name = "j1";
 		j1->Text = "judge";
 		j1->Show();
-	
+	*/
 		LoginForm^ loginform1 = gcnew LoginForm();
 		loginform1->Name = "loginForm1";
 		loginform1->Show();

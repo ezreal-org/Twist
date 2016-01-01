@@ -81,6 +81,12 @@
     <ClInclude Include="staticticChart.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="feedbackAdmin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="feedbackStu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="calForm.cpp">
@@ -131,6 +137,9 @@
       <Filter>资源文件</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="stuInfo.resx">
+      <Filter>资源文件</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="staticticChart.resx">
       <Filter>资源文件</Filter>
     </EmbeddedResource>
   </ItemGroup>
